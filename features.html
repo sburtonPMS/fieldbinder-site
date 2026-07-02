@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Features — FieldBinder AI</title>
+<meta name="description" content="Everything FieldBinder AI does: capture 12 field types by project, organize automatically, generate AI daily reports, punch lists, RFIs, and executive summaries, work offline, and export branded PDFs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0E1216;--bg-elev:#151A20;--bg-elev-2:#1B222A;
+    --line:#232C36;--line-bright:#2E3A46;
+    --text:#F2F5F8;--text-2:#A3AEB9;--text-3:#6B7885;
+    --blue:#2E80FF;--blue-bright:#4D96FF;--blue-dim:#1E5AC0;
+    --steel:#5C7A99;--amber:#F5A623;--green:#2DBE6C;
+    --maxw:1200px;--radius:14px;--radius-sm:10px;--ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:rgba(46,128,255,.28);color:#fff}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;font-weight:600;letter-spacing:-.02em;line-height:1.1}
+  :focus-visible{outline:2px solid var(--blue-bright);outline-offset:3px;border-radius:4px}
+
+  .grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(46,128,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(46,128,255,.05) 1px,transparent 1px);background-size:44px 44px;-webkit-mask-image:radial-gradient(ellipse 70% 70% at 50% 20%,#000 0%,transparent 75%);mask-image:radial-gradient(ellipse 70% 70% at 50% 20%,#000 0%,transparent 75%);pointer-events:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .section{padding:80px 0;position:relative}
+
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--blue-bright);display:inline-flex;align-items:center;gap:9px}
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--blue);display:inline-block}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;padding:13px 24px;border-radius:10px;border:1px solid transparent;cursor:pointer;transition:all .18s var(--ease);white-space:nowrap}
+  .btn-primary{background:var(--blue);color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.12) inset,0 8px 24px -8px rgba(46,128,255,.6)}
+  .btn-primary:hover{background:var(--blue-bright);transform:translateY(-1px);box-shadow:0 1px 0 rgba(255,255,255,.16) inset,0 12px 30px -8px rgba(46,128,255,.7)}
+  .btn-ghost{background:transparent;color:var(--text);border-color:var(--line-bright)}
+  .btn-ghost:hover{border-color:var(--steel);background:rgba(92,122,153,.08)}
+  .btn svg{width:16px;height:16px}
+
+  /* Nav */
+  header{position:sticky;top:0;z-index:100;background:rgba(14,18,22,.78);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  nav{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .brand{display:flex;align-items:center;gap:11px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;letter-spacing:-.01em}
+  .brand .ai{color:var(--blue-bright)}
+  .logo-mark{width:30px;height:30px;flex:none}
+  .nav-links{display:flex;align-items:center;gap:30px}
+  .nav-links a{color:var(--text-2);font-size:14px;font-weight:500;transition:color .16s}
+  .nav-links a:hover,.nav-links a.active{color:var(--text)}
+  .nav-cta{display:flex;align-items:center;gap:14px}
+  .nav-login{color:var(--text-2);font-size:14px;font-weight:500}
+  .nav-login:hover{color:var(--text)}
+  .menu-btn{display:none;background:none;border:1px solid var(--line-bright);border-radius:8px;padding:8px;cursor:pointer}
+  .menu-btn svg{width:20px;height:20px;stroke:var(--text)}
+
+  /* Hero */
+  .f-hero{position:relative;padding:80px 0 56px;text-align:center;overflow:hidden}
+  .f-hero .inner{position:relative;z-index:2;max-width:780px;margin:0 auto}
+  .f-hero h1{font-size:clamp(36px,5vw,56px);font-weight:700;margin:20px 0 20px}
+  .f-hero h1 .accent{color:var(--blue-bright)}
+  .f-hero p{font-size:clamp(17px,1.6vw,20px);color:var(--text-2);max-width:620px;margin:0 auto 34px}
+  .f-hero .btn-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+  /* Feature rows */
+  .frow{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;padding:64px 0;border-top:1px solid var(--line)}
+  .frow:nth-child(even) .frow-visual{order:-1}
+  .frow-copy .tag-mono{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--steel)}
+  .frow-copy h2{font-size:clamp(26px,3.2vw,36px);margin:14px 0 16px}
+  .frow-copy p{color:var(--text-2);font-size:16px;margin-bottom:18px}
+  .frow-copy p b{color:var(--text);font-weight:600}
+  .flist{list-style:none;display:flex;flex-direction:column;gap:12px}
+  .flist li{display:flex;gap:11px;font-size:14.5px;color:var(--text-2);align-items:flex-start}
+  .flist svg{width:17px;height:17px;flex:none;margin-top:2px;stroke:var(--blue-bright)}
+
+  /* Generic visual card */
+  .vcard{background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius);padding:22px;position:relative;overflow:hidden}
+  .vcard .grid-bg{-webkit-mask-image:radial-gradient(ellipse 90% 90% at 50% 0%,#000,transparent 80%);mask-image:radial-gradient(ellipse 90% 90% at 50% 0%,#000,transparent 80%);opacity:.6}
+  .vc-inner{position:relative;z-index:2}
+
+  /* capture chips */
+  .chipwrap{display:flex;flex-wrap:wrap;gap:9px}
+  .cchip{display:flex;align-items:center;gap:7px;background:var(--bg);border:1px solid var(--line-bright);border-radius:8px;padding:9px 12px;font-size:12.5px;color:var(--text-2)}
+  .cchip svg{width:15px;height:15px;stroke:var(--blue-bright);flex:none}
+
+  /* feed snippet */
+  .feedcard{background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:12px 13px;margin-bottom:9px}
+  .feedcard:last-child{margin-bottom:0}
+  .fc-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+  .ftag{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.08em;padding:2px 7px;border-radius:5px}
+  .ftag.safety{color:var(--amber);background:rgba(245,166,35,.13);border:1px solid rgba(245,166,35,.28)}
+  .ftag.punch{color:var(--blue-bright);background:rgba(46,128,255,.13);border:1px solid rgba(46,128,255,.3)}
+  .ftag.progress{color:var(--green);background:rgba(45,190,108,.13);border:1px solid rgba(45,190,108,.28)}
+  .fc-time{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--text-3)}
+  .fc-body{font-size:12px;color:var(--text)}
+  .filterbar{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+  .fpill{font-family:'IBM Plex Mono',monospace;font-size:10px;padding:4px 9px;border-radius:20px;border:1px solid var(--line-bright);color:var(--text-3)}
+  .fpill.on{background:var(--blue);border-color:var(--blue);color:#fff}
+
+  /* transform (voice) */
+  .tcard{background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:14px 16px;margin-bottom:12px}
+  .tcard.clean{border-color:rgba(46,128,255,.35);margin-bottom:0}
+  .tlabel{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;color:var(--text-3);display:flex;align-items:center;gap:7px}
+  .tcard.clean .tlabel{color:var(--blue-bright)}
+  .ttext{font-size:13px;line-height:1.55;color:var(--text-2)}
+  .tcard.clean .ttext{color:var(--text)}
+  .arrowc{text-align:center;margin:0 0 12px}
+  .arrowc svg{width:20px;height:20px;stroke:var(--blue-bright)}
+
+  /* sync stepper */
+  .stepper{display:flex;flex-direction:column;gap:0}
+  .sstep{display:flex;gap:14px;align-items:flex-start;padding:12px 0;position:relative}
+  .sdot{width:30px;height:30px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--line-bright);background:var(--bg)}
+  .sdot svg{width:15px;height:15px}
+  .sstep.off .sdot{border-color:var(--text-3)}.sstep.off .sdot svg{stroke:var(--text-3)}
+  .sstep.pend .sdot{border-color:var(--amber);background:rgba(245,166,35,.1)}.sstep.pend .sdot svg{stroke:var(--amber)}
+  .sstep.done .sdot{border-color:var(--green);background:rgba(45,190,108,.12)}.sstep.done .sdot svg{stroke:var(--green)}
+  .sline{position:absolute;left:15px;top:42px;bottom:-6px;width:1.5px;background:var(--line-bright)}
+  .sstep:last-child .sline{display:none}
+  .sstep-t{font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:14px;color:var(--text)}
+  .sstep-s{font-size:12.5px;color:var(--text-3)}
+
+  /* PDF preview */
+  .pdfcard{background:linear-gradient(180deg,#EFF3F7,#E2E8EF);border-radius:12px;padding:20px;color:#1a2129;box-shadow:0 20px 40px -20px rgba(0,0,0,.5)}
+  .pdf-top{display:flex;justify-content:space-between;align-items:center;padding-bottom:12px;border-bottom:1.5px solid #cbd4dd;margin-bottom:12px}
+  .pdf-logo{display:flex;align-items:center;gap:7px}
+  .pdf-brand{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;color:#12171c}
+  .pdf-badge{font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:600;letter-spacing:.1em;color:var(--blue-dim);background:rgba(46,128,255,.12);padding:3px 7px;border-radius:5px;border:1px solid rgba(46,128,255,.25)}
+  .pdf-title{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;color:#12171c}
+  .pdf-date{font-family:'IBM Plex Mono',monospace;font-size:9px;color:#5a6674;margin:2px 0 12px}
+  .pdf-line{display:flex;gap:8px;margin-bottom:8px;align-items:flex-start}
+  .pdf-ck{width:14px;height:14px;flex:none;margin-top:1px}
+  .pdf-txt{font-size:10.5px;line-height:1.5;color:#2a3540}
+  .pdf-txt b{color:#12171c}
+
+  /* browser mock */
+  .browser{background:var(--bg);border:1px solid var(--line-bright);border-radius:12px;overflow:hidden}
+  .b-bar{display:flex;align-items:center;gap:6px;padding:10px 12px;background:var(--bg-elev-2);border-bottom:1px solid var(--line)}
+  .b-dot{width:9px;height:9px;border-radius:50%;background:var(--line-bright)}
+  .b-url{margin-left:8px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-3);background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:3px 10px}
+  .b-body{display:grid;grid-template-columns:70px 1fr;height:150px}
+  .b-side{border-right:1px solid var(--line);padding:12px 10px;display:flex;flex-direction:column;gap:8px}
+  .b-navitem{height:8px;border-radius:4px;background:var(--line-bright)}
+  .b-navitem.on{background:var(--blue)}
+  .b-main{padding:14px}
+  .b-block{height:10px;border-radius:4px;background:var(--line);margin-bottom:9px}
+  .b-grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+  .b-tile{height:44px;border-radius:7px;background:var(--bg-elev);border:1px solid var(--line)}
+
+  /* Final CTA */
+  .final{position:relative;text-align:center;padding:104px 0;overflow:hidden}
+  .final .grid-bg{-webkit-mask-image:radial-gradient(ellipse 70% 80% at 50% 50%,#000,transparent 70%);mask-image:radial-gradient(ellipse 70% 80% at 50% 50%,#000,transparent 70%)}
+  .final-inner{position:relative;z-index:2;max-width:660px;margin:0 auto}
+  .final h2{font-size:clamp(30px,4.4vw,48px);font-weight:700;margin:20px 0 18px}
+  .final h2 .accent{color:var(--blue-bright)}
+  .final p{color:var(--text-2);font-size:18px;margin-bottom:32px}
+  .final .btn-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+  /* Footer */
+  footer{border-top:1px solid var(--line);padding:64px 0 40px}
+  .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+  .foot-brand{max-width:300px}
+  .foot-brand .brand{margin-bottom:16px}
+  .foot-brand p{color:var(--text-2);font-size:14px;line-height:1.6}
+  .foot-col h5{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);margin-bottom:18px}
+  .foot-col a{display:block;color:var(--text-2);font-size:14px;margin-bottom:12px;transition:color .16s}
+  .foot-col a:hover{color:var(--text)}
+  .foot-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:28px;border-top:1px solid var(--line);flex-wrap:wrap;gap:16px}
+  .foot-bottom p{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-3);letter-spacing:.02em}
+  .foot-tagline{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--steel);letter-spacing:.04em}
+
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+
+  @media(max-width:1000px){
+    .frow{grid-template-columns:1fr;gap:32px;padding:48px 0}
+    .frow:nth-child(even) .frow-visual{order:0}
+    .foot-grid{grid-template-columns:1fr 1fr;gap:32px}
+    .foot-brand{grid-column:1/-1}
+  }
+  @media(max-width:680px){
+    .nav-links,.nav-login{display:none}
+    .menu-btn{display:flex}
+    .section{padding:60px 0}
+    .foot-grid{grid-template-columns:1fr}
+  }
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header>
+  <div class="wrap">
+    <nav>
+      <a href="index.html" class="brand" aria-label="FieldBinder AI home">
+        <svg class="logo-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <rect x="4" y="3" width="21" height="26" rx="3" fill="#151A20" stroke="#2E80FF" stroke-width="1.6"/>
+          <rect x="4" y="3" width="5" height="26" rx="2.5" fill="#2E80FF" opacity="0.9"/>
+          <circle cx="18.5" cy="12" r="2.1" fill="#4D96FF"/><circle cx="18.5" cy="20" r="1.4" fill="#5C7A99"/>
+          <circle cx="23" cy="16" r="1.4" fill="#5C7A99"/><path d="M18.5 12 L23 16 L18.5 20" stroke="#4D96FF" stroke-width="1.1" opacity="0.8"/>
+        </svg>
+        <span>FieldBinder<span class="ai"> AI</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="features.html" class="active">Features</a>
+        <a href="use-cases.html">Use cases</a>
+        <a href="index.html#reports">Reports</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="security.html">Security</a>
+      </div>
+      <div class="nav-cta">
+        <a href="#" class="nav-login">Log in</a>
+        <a href="index.html#join" class="btn btn-primary">Join Early Access</a>
+        <button class="menu-btn" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="f-hero">
+  <div class="grid-bg"></div>
+  <div class="wrap">
+    <div class="inner">
+      <span class="eyebrow">Features</span>
+      <h1>One workflow, from the field to the <span class="accent">finished report.</span></h1>
+      <p>Capture everything on site, keep it organized by project, and let AI turn it into professional documentation. Here's every part of how FieldBinder AI works.</p>
+      <div class="btn-row">
+        <a href="index.html#join" class="btn btn-primary">Join Early Access</a>
+        <a href="pricing.html" class="btn btn-ghost">See pricing</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE ROWS -->
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+
+    <!-- 1 Capture -->
+    <div class="frow reveal">
+      <div class="frow-copy">
+        <span class="tag-mono">01 · Field capture</span>
+        <h2>Everything you document on site, in one project.</h2>
+        <p>Twelve capture types built around how field work actually happens — not a notes app bolted onto a photo library. Open the project, tap capture, and it lands in the right place with a timestamp and location.</p>
+        <ul class="flist">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Photos, short videos, voice notes, and text notes</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Measurements, files, to-dos, and punch items</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Customer decisions, safety observations, change requests, RFIs</li>
+        </ul>
+      </div>
+      <div class="frow-visual">
+        <div class="vcard"><div class="grid-bg"></div><div class="vc-inner">
+          <div class="chipwrap">
+            <span class="cchip"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>Photo</span>
+            <span class="cchip"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>Video</span>
+            <span class="cchip"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4"/></svg>Voice</span>
+            <span class="cchip"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>Note</span>
+            <span class="cchip"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M2 12h5l2-4 3 8 2-4h6"/></svg>Measurement</span>
+            <span class="cchip"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/></svg>File</span>
+            <span class="cchip"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M9 11l3 3L22 4"/></svg>Punch</span>
+            <span class="cchip"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><path d="M12 9v4"/></svg>Safety</span>
+            <span class="cchip"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/></svg>RFI</span>
+          </div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- 2 Organize -->
+    <div class="frow reveal">
+      <div class="frow-copy">
+        <span class="tag-mono">02 · Project organization</span>
+        <h2>Sorted automatically, the moment you capture.</h2>
+        <p>Every project has a chronological feed as its home. Tag items as you go — one tap — and filter the whole job by type, tag, or date. <b>No more scrolling a camera roll trying to remember which photo went with which issue.</b></p>
+        <ul class="flist">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Chronological project feed as the main view</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Default tags: Scope, Issue, Progress, Punch, Safety, Change, RFI, and more</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Filter by capture type, tag, or date instantly</li>
+        </ul>
+      </div>
+      <div class="frow-visual">
+        <div class="vcard"><div class="vc-inner">
+          <div class="filterbar">
+            <span class="fpill on">All</span><span class="fpill">Safety</span><span class="fpill">Punch</span><span class="fpill">Progress</span><span class="fpill">RFI</span>
+          </div>
+          <div class="feedcard"><div class="fc-head"><span class="ftag safety">SAFETY</span><span class="fc-time">08:42</span></div><div class="fc-body">Guardrail missing at east catwalk access.</div></div>
+          <div class="feedcard"><div class="fc-head"><span class="ftag punch">PUNCH</span><span class="fc-time">09:15</span></div><div class="fc-body">North wall plate damaged — verify existing steel.</div></div>
+          <div class="feedcard"><div class="fc-head"><span class="ftag progress">PROGRESS</span><span class="fc-time">10:03</span></div><div class="fc-body">Interior coating ~60% complete.</div></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- 3 AI engine -->
+    <div class="frow reveal">
+      <div class="frow-copy">
+        <span class="tag-mono">03 · AI reporting engine</span>
+        <h2>The part that saves the real time.</h2>
+        <p>Talk while you walk and get a clean field note back. Let AI describe your photos. Then generate a full report from what you captured — <b>daily report, punch list, RFI list, or executive summary</b> — as an editable draft you review and export.</p>
+        <ul class="flist">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Voice-to-clean-note: rough dictation becomes a professional field note</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>AI photo descriptions you can accept or edit</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Four report types generated from real field captures</li>
+        </ul>
+      </div>
+      <div class="frow-visual">
+        <div class="vcard"><div class="vc-inner">
+          <div class="tcard"><div class="tlabel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/></svg>Raw voice memo</div><div class="ttext">"North wall has a damaged plate. Need contractor to verify existing steel. Customer wants light, medium, heavy repair options."</div></div>
+          <div class="arrowc"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></div>
+          <div class="tcard clean"><div class="tlabel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path d="M12 2l2.4 7.4H22l-6 4.5 2.3 7.1-6.3-4.6L5.7 21 8 13.9 2 9.4h7.6z"/></svg>AI field note</div><div class="ttext">Damage was observed along the north wall plate area. Contractor should field-verify existing steel conditions prior to repair. Recommend developing light, medium, and heavy repair options for owner review.</div></div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- 4 Offline -->
+    <div class="frow reveal">
+      <div class="frow-copy">
+        <span class="tag-mono">04 · Offline mode</span>
+        <h2>Works where the signal doesn't.</h2>
+        <p>Plants, basements, rooftops, data centers, remote job sites — the places you actually work rarely have bars. FieldBinder AI captures everything locally and <b>syncs automatically the moment you're back online.</b> Nothing waits, nothing gets lost.</p>
+        <ul class="flist">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Full offline capture — photos, video, voice, and notes</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Clear pending-sync status on every item</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Automatic sync when the connection returns</li>
+        </ul>
+      </div>
+      <div class="frow-visual">
+        <div class="vcard"><div class="vc-inner">
+          <div class="stepper">
+            <div class="sstep off"><div class="sdot"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M1 1l22 22M16.72 11.06A10.94 10.94 0 0119 12.55M5 12.55a10.94 10.94 0 015.17-2.39M10.71 5.05A16 16 0 0122.58 9M1.42 9a15.91 15.91 0 014.7-2.88M8.53 16.11a6 6 0 016.95 0M12 20h.01"/></svg></div><div class="sline"></div><div><div class="sstep-t">Captured offline</div><div class="sstep-s">Photo saved locally · no signal</div></div></div>
+            <div class="sstep pend"><div class="sdot"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><div class="sline"></div><div><div class="sstep-t">Pending sync</div><div class="sstep-s">Queued · waiting for connection</div></div></div>
+            <div class="sstep done"><div class="sdot"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></div><div><div class="sstep-t">Synced to project</div><div class="sstep-s">Back online · uploaded automatically</div></div></div>
+          </div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- 5 Export -->
+    <div class="frow reveal">
+      <div class="frow-copy">
+        <span class="tag-mono">05 · Branded export</span>
+        <h2>Reports that look like your company made them.</h2>
+        <p>Export any report as a branded PDF with your logo, company name, and project details — or copy clean, email-ready text straight into a message. <b>The output is yours to send, on your letterhead, after your review.</b></p>
+        <ul class="flist">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Branded PDF with your logo and project header</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Copyable, email-ready report text</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Edit the draft before anything leaves the app</li>
+        </ul>
+      </div>
+      <div class="frow-visual">
+        <div class="pdfcard">
+          <div class="pdf-top">
+            <div class="pdf-logo">
+              <svg width="22" height="22" viewBox="0 0 32 32" fill="none"><rect x="5" y="4" width="19" height="24" rx="3" fill="#fff" stroke="#1E5AC0" stroke-width="1.6"/><rect x="5" y="4" width="4.5" height="24" rx="2" fill="#2E80FF"/><circle cx="17.5" cy="16" r="2" fill="#2E80FF"/></svg>
+              <span class="pdf-brand">Your Company</span>
+            </div>
+            <span class="pdf-badge">DRAFT</span>
+          </div>
+          <div class="pdf-title">Daily Field Report</div>
+          <div class="pdf-date">PRJ-2041 · Riverside WWTP · Feb 04</div>
+          <div class="pdf-line"><svg class="pdf-ck" viewBox="0 0 24 24" fill="none" stroke="#2DBE6C" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg><div class="pdf-txt"><b>Safety:</b> Missing guardrail flagged at east catwalk; access restricted.</div></div>
+          <div class="pdf-line"><svg class="pdf-ck" viewBox="0 0 24 24" fill="none" stroke="#2DBE6C" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg><div class="pdf-txt"><b>Punch:</b> North wall plate damage — verify existing steel prior to repair.</div></div>
+          <div class="pdf-line"><svg class="pdf-ck" viewBox="0 0 24 24" fill="none" stroke="#2DBE6C" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg><div class="pdf-txt"><b>Progress:</b> Interior coating ~60% complete; on schedule.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6 Web portal -->
+    <div class="frow reveal">
+      <div class="frow-copy">
+        <span class="tag-mono">06 · Web portal</span>
+        <h2>Capture on your phone. Review at your desk.</h2>
+        <p>The field work happens on iPhone — but some work is just easier on a computer. The companion web portal lets you review projects, edit reports, export PDFs, and manage your company settings on a full screen and keyboard.</p>
+        <ul class="flist">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Review projects and captures on desktop</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Edit and export reports with more room to work</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Manage company profile, logo, billing, and storage</li>
+        </ul>
+      </div>
+      <div class="frow-visual">
+        <div class="browser">
+          <div class="b-bar"><span class="b-dot"></span><span class="b-dot"></span><span class="b-dot"></span><span class="b-url">app.fieldbinder.ai</span></div>
+          <div class="b-body">
+            <div class="b-side"><div class="b-navitem on"></div><div class="b-navitem"></div><div class="b-navitem"></div><div class="b-navitem"></div></div>
+            <div class="b-main"><div class="b-block" style="width:55%"></div><div class="b-block" style="width:80%;height:8px"></div><div class="b-grid2"><div class="b-tile"></div><div class="b-tile"></div><div class="b-tile"></div><div class="b-tile"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final">
+  <div class="grid-bg"></div>
+  <div class="wrap">
+    <div class="final-inner reveal">
+      <span class="eyebrow" style="justify-content:center">Get started</span>
+      <h2>Capture the field.<br><span class="accent">Generate the report.</span></h2>
+      <p>Join the early access list and be first to put the full workflow on your next site visit.</p>
+      <div class="btn-row">
+        <a href="index.html#join" class="btn btn-primary">Join Early Access
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="use-cases.html" class="btn btn-ghost">See who it's for</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="index.html" class="brand" aria-label="FieldBinder AI home">
+          <svg class="logo-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <rect x="4" y="3" width="21" height="26" rx="3" fill="#151A20" stroke="#2E80FF" stroke-width="1.6"/>
+            <rect x="4" y="3" width="5" height="26" rx="2.5" fill="#2E80FF" opacity="0.9"/>
+            <circle cx="18.5" cy="12" r="2.1" fill="#4D96FF"/><circle cx="18.5" cy="20" r="1.4" fill="#5C7A99"/>
+            <circle cx="23" cy="16" r="1.4" fill="#5C7A99"/><path d="M18.5 12 L23 16 L18.5 20" stroke="#4D96FF" stroke-width="1.1" opacity="0.8"/>
+          </svg>
+          <span>FieldBinder<span class="ai"> AI</span></span>
+        </a>
+        <p>Turn field documentation into professional project reports. Your project memory, organized by job.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Product</h5>
+        <a href="features.html">Features</a>
+        <a href="use-cases.html">Use cases</a>
+        <a href="index.html#reports">Reports</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="security.html">Security</a>
+      </div>
+      <div class="foot-col">
+        <h5>Company</h5>
+        <a href="about.html">About</a>
+        <a href="index.html#join">Early access</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="foot-col">
+        <h5>Legal</h5>
+        <a href="terms.html">Terms</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="privacy.html">AI disclaimer</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© 2026 FieldBinder AI. All rights reserved.</p>
+      <p class="foot-tagline">Capture the field. Generate the report.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
