@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FieldBinder AI — Capture the field. Generate the report.</title>
+<meta name="description" content="FieldBinder AI turns messy field documentation into organized, professional project reports. Capture photos, videos, notes, and voice memos by project. Generate daily reports, punch lists, RFI lists, and executive summaries with AI.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0E1216;
+    --bg-elev:#151A20;
+    --bg-elev-2:#1B222A;
+    --line:#232C36;
+    --line-bright:#2E3A46;
+    --text:#F2F5F8;
+    --text-2:#A3AEB9;
+    --text-3:#6B7885;
+    --blue:#2E80FF;
+    --blue-bright:#4D96FF;
+    --blue-dim:#1E5AC0;
+    --steel:#5C7A99;
+    --amber:#F5A623;
+    --green:#2DBE6C;
+    --maxw:1200px;
+    --radius:14px;
+    --radius-sm:10px;
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',system-ui,sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{background:rgba(46,128,255,.28);color:#fff}
+
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;font-weight:600;letter-spacing:-.02em;line-height:1.08}
+  .mono{font-family:'IBM Plex Mono',monospace}
+
+  :focus-visible{outline:2px solid var(--blue-bright);outline-offset:3px;border-radius:4px}
+
+  /* ---------- Blueprint grid backdrop ---------- */
+  .grid-bg{
+    position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(46,128,255,.05) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(46,128,255,.05) 1px,transparent 1px);
+    background-size:44px 44px;
+    -webkit-mask-image:radial-gradient(ellipse 80% 60% at 70% 30%,#000 0%,transparent 75%);
+    mask-image:radial-gradient(ellipse 80% 60% at 70% 30%,#000 0%,transparent 75%);
+    pointer-events:none;
+  }
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+
+  .section{padding:104px 0;position:relative}
+  .section-tight{padding:72px 0;position:relative}
+
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--blue-bright);
+    display:inline-flex;align-items:center;gap:9px;
+  }
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--blue);display:inline-block}
+
+  .section-head{max-width:660px;margin-bottom:56px}
+  .section-head h2{font-size:clamp(28px,4vw,42px);margin:18px 0 16px}
+  .section-head p{color:var(--text-2);font-size:clamp(16px,1.4vw,18px)}
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:9px;
+    font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;
+    padding:13px 24px;border-radius:10px;border:1px solid transparent;
+    cursor:pointer;transition:all .18s var(--ease);white-space:nowrap;
+  }
+  .btn-primary{background:var(--blue);color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.12) inset,0 8px 24px -8px rgba(46,128,255,.6)}
+  .btn-primary:hover{background:var(--blue-bright);transform:translateY(-1px);box-shadow:0 1px 0 rgba(255,255,255,.16) inset,0 12px 30px -8px rgba(46,128,255,.7)}
+  .btn-ghost{background:transparent;color:var(--text);border-color:var(--line-bright)}
+  .btn-ghost:hover{border-color:var(--steel);background:rgba(92,122,153,.08)}
+  .btn svg{width:16px;height:16px}
+
+  /* ---------- Nav ---------- */
+  header{
+    position:sticky;top:0;z-index:100;
+    background:rgba(14,18,22,.78);backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .brand{display:flex;align-items:center;gap:11px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;letter-spacing:-.01em}
+  .brand .ai{color:var(--blue-bright)}
+  .logo-mark{width:30px;height:30px;flex:none}
+  .nav-links{display:flex;align-items:center;gap:30px}
+  .nav-links a{color:var(--text-2);font-size:14px;font-weight:500;transition:color .16s}
+  .nav-links a:hover{color:var(--text)}
+  .nav-cta{display:flex;align-items:center;gap:14px}
+  .nav-login{color:var(--text-2);font-size:14px;font-weight:500}
+  .nav-login:hover{color:var(--text)}
+  .menu-btn{display:none;background:none;border:1px solid var(--line-bright);border-radius:8px;padding:8px;cursor:pointer}
+  .menu-btn svg{width:20px;height:20px;stroke:var(--text)}
+
+  /* ---------- Hero ---------- */
+  .hero{position:relative;padding:76px 0 96px;overflow:hidden}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;position:relative;z-index:2}
+  .hero h1{font-size:clamp(38px,5.4vw,62px);font-weight:700;margin:22px 0 22px}
+  .hero h1 .accent{color:var(--blue-bright)}
+  .hero-sub{font-size:clamp(17px,1.6vw,20px);color:var(--text-2);max-width:540px;margin-bottom:34px}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+  .hero-trust{display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--text-3);letter-spacing:.02em}
+  .hero-trust .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+
+  /* ---------- Phone + report signature ---------- */
+  .stage{position:relative;height:560px}
+  .phone{
+    position:absolute;top:0;left:6%;width:290px;height:560px;
+    background:linear-gradient(160deg,#20272F,#12171C);
+    border-radius:42px;padding:11px;
+    box-shadow:0 40px 80px -30px rgba(0,0,0,.8),0 0 0 1px var(--line-bright),inset 0 0 0 1px rgba(255,255,255,.03);
+    z-index:2;
+  }
+  .phone-screen{
+    background:var(--bg);border-radius:32px;height:100%;overflow:hidden;position:relative;
+    border:1px solid #0a0d10;
+  }
+  .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:26px;background:#0a0d10;border-radius:0 0 16px 16px;z-index:5}
+  .app-top{padding:34px 16px 12px;border-bottom:1px solid var(--line)}
+  .app-proj{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14.5px;color:var(--text);letter-spacing:-.01em}
+  .app-meta{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--text-3);margin-top:3px;display:flex;gap:8px;align-items:center}
+  .sync{display:inline-flex;align-items:center;gap:4px;color:var(--amber)}
+  .sync .s-dot{width:5px;height:5px;border-radius:50%;background:var(--amber)}
+  .feed{padding:12px 12px 0;display:flex;flex-direction:column;gap:9px}
+  .cap{background:var(--bg-elev);border:1px solid var(--line);border-radius:11px;padding:10px 11px;animation:rise .6s var(--ease) backwards}
+  .cap:nth-child(1){animation-delay:.15s}
+  .cap:nth-child(2){animation-delay:.28s}
+  .cap:nth-child(3){animation-delay:.41s}
+  .cap-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+  .tag{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.08em;padding:2px 7px;border-radius:5px}
+  .tag.safety{color:var(--amber);background:rgba(245,166,35,.13);border:1px solid rgba(245,166,35,.28)}
+  .tag.punch{color:var(--blue-bright);background:rgba(46,128,255,.13);border:1px solid rgba(46,128,255,.3)}
+  .tag.progress{color:var(--green);background:rgba(45,190,108,.13);border:1px solid rgba(45,190,108,.28)}
+  .cap-time{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text-3)}
+  .cap-type{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-2);margin-bottom:4px}
+  .cap-type svg{width:12px;height:12px;stroke:var(--steel);flex:none}
+  .cap-body{font-size:11.5px;color:var(--text);line-height:1.45}
+  .cap-thumb{height:52px;border-radius:7px;margin-top:8px;background:
+    linear-gradient(135deg,#2a333d,#1a2129);
+    position:relative;overflow:hidden}
+  .cap-thumb::after{content:"";position:absolute;inset:0;background-image:linear-gradient(115deg,transparent 40%,rgba(92,122,153,.18) 50%,transparent 60%)}
+
+  .report-card{
+    position:absolute;right:0;bottom:24px;width:300px;
+    background:linear-gradient(180deg,#EFF3F7,#E2E8EF);
+    border-radius:14px;padding:20px;
+    box-shadow:0 40px 80px -24px rgba(0,0,0,.75),0 0 0 1px rgba(255,255,255,.5) inset;
+    z-index:4;color:#1a2129;
+    animation:rise .7s var(--ease) .55s backwards;
+  }
+  .rc-top{display:flex;align-items:center;justify-content:space-between;padding-bottom:12px;border-bottom:1.5px solid #cbd4dd;margin-bottom:12px}
+  .rc-logo{display:flex;align-items:center;gap:7px}
+  .rc-logo-mark{width:22px;height:22px}
+  .rc-brand{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;color:#1a2129}
+  .rc-badge{font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:600;letter-spacing:.1em;color:var(--blue-dim);background:rgba(46,128,255,.12);padding:3px 7px;border-radius:5px;border:1px solid rgba(46,128,255,.25)}
+  .rc-title{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;color:#12171c;letter-spacing:-.01em}
+  .rc-date{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:#5a6674;margin:2px 0 14px}
+  .rc-line{display:flex;gap:9px;margin-bottom:9px;align-items:flex-start}
+  .rc-check{width:15px;height:15px;flex:none;margin-top:1px}
+  .rc-text{font-size:11px;line-height:1.5;color:#2a3540}
+  .rc-text b{color:#12171c;font-weight:600}
+
+  /* ---------- Logo strip ---------- */
+  .logostrip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:26px 0}
+  .logostrip .wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
+  .logostrip .label{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3)}
+  .logostrip .roles{display:flex;gap:28px;flex-wrap:wrap}
+  .logostrip .roles span{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--text-2);letter-spacing:.02em}
+
+  /* ---------- Problem ---------- */
+  .scatter{display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center}
+  .chips{display:flex;flex-wrap:wrap;gap:12px;position:relative}
+  .chip{
+    background:var(--bg-elev);border:1px solid var(--line);border-radius:10px;
+    padding:14px 16px;display:flex;align-items:center;gap:11px;
+  }
+  .chip svg{width:18px;height:18px;stroke:var(--text-3);flex:none}
+  .chip-txt{font-size:13.5px;color:var(--text-2)}
+  .chip:nth-child(1){transform:rotate(-1.5deg)}
+  .chip:nth-child(3){transform:rotate(1.5deg)}
+  .chip:nth-child(4){transform:rotate(-1deg)}
+  .chip:nth-child(6){transform:rotate(1deg)}
+  .problem-copy h2{font-size:clamp(26px,3.4vw,38px);margin:16px 0 18px}
+  .problem-copy p{color:var(--text-2);font-size:16.5px;margin-bottom:16px}
+  .problem-copy p b{color:var(--text);font-weight:600}
+
+  /* ---------- Steps ---------- */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .step{position:relative;padding-top:26px}
+  .step-num{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:var(--blue-bright);letter-spacing:.08em}
+  .step-bar{height:2px;background:var(--line-bright);margin:14px 0 20px;position:relative;overflow:hidden}
+  .step-bar::after{content:"";position:absolute;left:0;top:0;height:100%;width:28px;background:var(--blue)}
+  .step h3{font-size:19px;margin-bottom:9px}
+  .step p{color:var(--text-2);font-size:14.5px}
+
+  /* ---------- Capture grid ---------- */
+  .cap-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .capture-item{
+    background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;
+    padding:18px 16px;transition:all .2s var(--ease);
+  }
+  .capture-item:hover{border-color:var(--line-bright);background:var(--bg-elev-2);transform:translateY(-2px)}
+  .capture-item svg{width:22px;height:22px;stroke:var(--blue-bright);margin-bottom:12px}
+  .capture-item .ci-name{font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:15px;color:var(--text)}
+  .capture-item .ci-sub{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--text-3);letter-spacing:.06em;text-transform:uppercase;margin-top:4px}
+
+  /* ---------- Voice band ---------- */
+  .voice{background:var(--bg-elev);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .voice-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch}
+  .voice-copy{align-self:center;padding-right:20px}
+  .voice-copy h2{font-size:clamp(26px,3.4vw,38px);margin:16px 0 16px}
+  .voice-copy p{color:var(--text-2);font-size:16.5px}
+  .transform{display:grid;gap:16px}
+  .tcard{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:18px 20px;position:relative}
+  .tcard-label{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+  .tcard.raw .tcard-label{color:var(--text-3)}
+  .tcard.clean{border-color:rgba(46,128,255,.35);box-shadow:0 0 0 1px rgba(46,128,255,.12),0 20px 40px -24px rgba(46,128,255,.4)}
+  .tcard.clean .tcard-label{color:var(--blue-bright)}
+  .waves{display:flex;align-items:center;gap:2px;height:12px}
+  .waves i{width:2px;background:var(--text-3);border-radius:2px;display:block}
+  .tcard-txt{font-size:14.5px;line-height:1.6}
+  .tcard.raw .tcard-txt{color:var(--text-2);font-style:italic}
+  .tcard.clean .tcard-txt{color:var(--text)}
+  .arrow-down{display:flex;justify-content:center;align-items:center}
+  .arrow-down svg{width:22px;height:22px;stroke:var(--blue-bright)}
+
+  /* ---------- Reports ---------- */
+  .reports-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+  .report{
+    background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius);
+    padding:26px;display:flex;gap:20px;transition:all .2s var(--ease);
+  }
+  .report:hover{border-color:var(--line-bright);transform:translateY(-2px)}
+  .report-icon{width:46px;height:46px;flex:none;border-radius:11px;background:rgba(46,128,255,.1);border:1px solid rgba(46,128,255,.25);display:flex;align-items:center;justify-content:center}
+  .report-icon svg{width:22px;height:22px;stroke:var(--blue-bright)}
+  .report h3{font-size:19px;margin-bottom:8px}
+  .report p{color:var(--text-2);font-size:14.5px;margin-bottom:12px}
+  .report .rtag{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.08em;color:var(--text-3)}
+
+  /* ---------- Use cases ---------- */
+  .uc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .uc{background:var(--bg-elev);border:1px solid var(--line);border-radius:12px;padding:22px;transition:border-color .2s}
+  .uc:hover{border-color:var(--line-bright)}
+  .uc-num{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--steel);letter-spacing:.1em}
+  .uc h3{font-size:17px;margin:12px 0 8px}
+  .uc p{color:var(--text-2);font-size:14px}
+
+  /* ---------- Pricing ---------- */
+  .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
+  .plan{
+    background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius);
+    padding:30px 26px;display:flex;flex-direction:column;position:relative;
+  }
+  .plan.featured{border-color:var(--blue);background:linear-gradient(180deg,rgba(46,128,255,.06),var(--bg-elev));box-shadow:0 30px 60px -30px rgba(46,128,255,.4)}
+  .plan-badge{position:absolute;top:-11px;left:26px;background:var(--blue);color:#fff;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.1em;padding:4px 12px;border-radius:6px}
+  .plan-name{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;letter-spacing:.02em}
+  .plan-price{margin:16px 0 6px;display:flex;align-items:baseline;gap:4px}
+  .plan-price .amt{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:40px;color:var(--text)}
+  .plan-price .per{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text-3)}
+  .plan-desc{color:var(--text-2);font-size:13.5px;margin-bottom:22px;min-height:38px}
+  .plan-feats{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:26px;flex-grow:1}
+  .plan-feats li{display:flex;gap:10px;font-size:13.5px;color:var(--text-2);align-items:flex-start}
+  .plan-feats svg{width:16px;height:16px;flex:none;margin-top:2px;stroke:var(--green)}
+  .plan .btn{width:100%}
+  .team-note{text-align:center;margin-top:28px;font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text-3);letter-spacing:.02em}
+  .team-note b{color:var(--steel)}
+
+  /* ---------- Security ---------- */
+  .security{background:var(--bg-elev);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .sec-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+  .sec-copy h2{font-size:clamp(26px,3.4vw,36px);margin:16px 0 18px}
+  .sec-copy>p{color:var(--text-2);font-size:16px;margin-bottom:24px}
+  .sec-list{display:flex;flex-direction:column;gap:16px}
+  .sec-item{display:flex;gap:14px;align-items:flex-start}
+  .sec-item .si-icon{width:38px;height:38px;flex:none;border-radius:10px;background:var(--bg);border:1px solid var(--line);display:flex;align-items:center;justify-content:center}
+  .sec-item svg{width:18px;height:18px;stroke:var(--blue-bright)}
+  .sec-item h4{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;margin-bottom:3px}
+  .sec-item p{color:var(--text-2);font-size:13.5px}
+  .disclaimer{
+    background:var(--bg);border:1px solid var(--line);border-left:3px solid var(--amber);
+    border-radius:10px;padding:22px 24px;
+  }
+  .disclaimer .d-label{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .disclaimer p{color:var(--text-2);font-size:14px;line-height:1.65;margin-bottom:14px}
+  .disclaimer p:last-child{margin-bottom:0}
+
+  /* ---------- Final CTA ---------- */
+  .final{position:relative;text-align:center;padding:120px 0;overflow:hidden}
+  .final .grid-bg{-webkit-mask-image:radial-gradient(ellipse 70% 80% at 50% 50%,#000,transparent 70%);mask-image:radial-gradient(ellipse 70% 80% at 50% 50%,#000,transparent 70%)}
+  .final-inner{position:relative;z-index:2;max-width:680px;margin:0 auto}
+  .final h2{font-size:clamp(32px,4.6vw,52px);font-weight:700;margin:20px 0 20px}
+  .final h2 .accent{color:var(--blue-bright)}
+  .final p{color:var(--text-2);font-size:18px;margin-bottom:34px}
+  .signup{display:flex;gap:12px;max-width:480px;margin:0 auto 16px;flex-wrap:wrap}
+  .signup input{
+    flex:1;min-width:220px;background:var(--bg-elev);border:1px solid var(--line-bright);
+    border-radius:10px;padding:14px 16px;color:var(--text);font-size:15px;font-family:'Inter',sans-serif;
+  }
+  .signup input::placeholder{color:var(--text-3)}
+  .signup input:focus{border-color:var(--blue);outline:none}
+  .signup .btn{flex:none}
+  .signup-note{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-3);letter-spacing:.02em}
+  .success{display:none;background:rgba(45,190,108,.1);border:1px solid rgba(45,190,108,.35);border-radius:10px;padding:16px 20px;max-width:480px;margin:0 auto;color:var(--green);font-size:15px;font-weight:500;align-items:center;justify-content:center;gap:10px}
+  .success svg{width:20px;height:20px;stroke:var(--green)}
+
+  /* ---------- Footer ---------- */
+  footer{border-top:1px solid var(--line);padding:64px 0 40px}
+  .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+  .foot-brand{max-width:300px}
+  .foot-brand .brand{margin-bottom:16px}
+  .foot-brand p{color:var(--text-2);font-size:14px;line-height:1.6}
+  .foot-col h5{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);margin-bottom:18px}
+  .foot-col a{display:block;color:var(--text-2);font-size:14px;margin-bottom:12px;transition:color .16s}
+  .foot-col a:hover{color:var(--text)}
+  .foot-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:28px;border-top:1px solid var(--line);flex-wrap:wrap;gap:16px}
+  .foot-bottom p{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-3);letter-spacing:.02em}
+  .foot-tagline{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--steel);letter-spacing:.04em}
+
+  /* ---------- Reveal animation ---------- */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+
+  @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+  /* ---------- Responsive ---------- */
+  @media(max-width:1000px){
+    .hero-grid,.scatter,.voice-grid,.sec-grid{grid-template-columns:1fr;gap:44px}
+    .stage{height:520px;margin-top:10px}
+    .steps,.cap-grid{grid-template-columns:repeat(2,1fr)}
+    .reports-grid{grid-template-columns:1fr}
+    .uc-grid,.price-grid{grid-template-columns:1fr}
+    .voice-copy{padding-right:0}
+    .foot-grid{grid-template-columns:1fr 1fr;gap:32px}
+    .foot-brand{grid-column:1/-1}
+  }
+  @media(max-width:680px){
+    .nav-links,.nav-login{display:none}
+    .menu-btn{display:flex}
+    .section{padding:76px 0}
+    .cap-grid{grid-template-columns:1fr 1fr}
+    .stage{transform:scale(.92);transform-origin:top center}
+    .foot-grid{grid-template-columns:1fr}
+    .hero-cta{width:100%}
+    .hero-cta .btn{flex:1}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .reveal{opacity:1;transform:none}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="wrap">
+    <nav>
+      <a href="#" class="brand" aria-label="FieldBinder AI home">
+        <svg class="logo-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <rect x="4" y="3" width="21" height="26" rx="3" fill="#151A20" stroke="#2E80FF" stroke-width="1.6"/>
+          <rect x="4" y="3" width="5" height="26" rx="2.5" fill="#2E80FF" opacity="0.9"/>
+          <circle cx="18.5" cy="12" r="2.1" fill="#4D96FF"/>
+          <circle cx="18.5" cy="20" r="1.4" fill="#5C7A99"/>
+          <circle cx="23" cy="16" r="1.4" fill="#5C7A99"/>
+          <path d="M18.5 12 L23 16 L18.5 20" stroke="#4D96FF" stroke-width="1.1" opacity="0.8"/>
+        </svg>
+        <span>FieldBinder<span class="ai"> AI</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="#how">How it works</a>
+        <a href="#capture">Capture</a>
+        <a href="#reports">Reports</a>
+        <a href="#usecases">Use cases</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#security">Security</a>
+      </div>
+      <div class="nav-cta">
+        <a href="#" class="nav-login">Log in</a>
+        <a href="#join" class="btn btn-primary">Join Early Access</a>
+        <button class="menu-btn" aria-label="Menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="grid-bg"></div>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">Field documentation → reports</span>
+        <h1>Capture the field.<br><span class="accent">Generate the report.</span></h1>
+        <p class="hero-sub">FieldBinder AI captures photos, videos, notes, and voice memos directly into each project — then turns them into daily reports, punch lists, RFI lists, and executive summaries. Stop losing project details in your camera roll.</p>
+        <div class="hero-cta">
+          <a href="#join" class="btn btn-primary">
+            Join Early Access
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="#how" class="btn btn-ghost">See how it works</a>
+        </div>
+        <div class="hero-trust">
+          <span class="dot"></span>
+          <span>iPhone-first · works offline in the field · syncs when you're back online</span>
+        </div>
+      </div>
+
+      <div class="stage">
+        <!-- Phone: the field capture side -->
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="notch"></div>
+            <div class="app-top">
+              <div class="app-proj">Riverside WWTP — Digester Rehab</div>
+              <div class="app-meta">
+                <span>PRJ-2041</span>·<span class="sync"><span class="s-dot"></span>3 pending sync</span>
+              </div>
+            </div>
+            <div class="feed">
+              <div class="cap">
+                <div class="cap-head">
+                  <span class="tag safety">SAFETY</span>
+                  <span class="cap-time">08:42</span>
+                </div>
+                <div class="cap-type">
+                  <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                  Photo
+                </div>
+                <div class="cap-body">Guardrail missing at east catwalk access.</div>
+                <div class="cap-thumb"></div>
+              </div>
+              <div class="cap">
+                <div class="cap-head">
+                  <span class="tag punch">PUNCH</span>
+                  <span class="cap-time">09:15</span>
+                </div>
+                <div class="cap-type">
+                  <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4"/></svg>
+                  Voice note · AI-cleaned
+                </div>
+                <div class="cap-body">North wall plate damaged — contractor to verify existing steel before repair.</div>
+              </div>
+              <div class="cap">
+                <div class="cap-head">
+                  <span class="tag progress">PROGRESS</span>
+                  <span class="cap-time">10:03</span>
+                </div>
+                <div class="cap-type">
+                  <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                  Photo
+                </div>
+                <div class="cap-body">Interior coating application ~60% complete.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Report card: the generated output side -->
+        <div class="report-card">
+          <div class="rc-top">
+            <div class="rc-logo">
+              <svg class="rc-logo-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                <rect x="5" y="4" width="19" height="24" rx="3" fill="#fff" stroke="#1E5AC0" stroke-width="1.6"/>
+                <rect x="5" y="4" width="4.5" height="24" rx="2" fill="#2E80FF"/>
+                <circle cx="17.5" cy="16" r="2" fill="#2E80FF"/>
+              </svg>
+              <span class="rc-brand">Your Company</span>
+            </div>
+            <span class="rc-badge">AI DRAFT</span>
+          </div>
+          <div class="rc-title">Daily Field Report</div>
+          <div class="rc-date">PRJ-2041 · Riverside WWTP · Feb 04</div>
+          <div class="rc-line">
+            <svg class="rc-check" viewBox="0 0 24 24" fill="none" stroke="#2DBE6C" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <div class="rc-text"><b>Safety:</b> Missing guardrail flagged at east catwalk; access restricted pending correction.</div>
+          </div>
+          <div class="rc-line">
+            <svg class="rc-check" viewBox="0 0 24 24" fill="none" stroke="#2DBE6C" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <div class="rc-text"><b>Punch:</b> North wall plate damage — verify existing steel prior to repair.</div>
+          </div>
+          <div class="rc-line">
+            <svg class="rc-check" viewBox="0 0 24 24" fill="none" stroke="#2DBE6C" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <div class="rc-text"><b>Progress:</b> Interior coating ~60% complete; on schedule.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ROLE STRIP ============ -->
+<div class="logostrip">
+  <div class="wrap">
+    <span class="label">Built for the field</span>
+    <div class="roles">
+      <span>Project Managers</span>
+      <span>Facility Managers</span>
+      <span>Maintenance Leaders</span>
+      <span>Engineering Consultants</span>
+      <span>Contractors</span>
+      <span>Owners' Reps</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PROBLEM ============ -->
+<section class="section">
+  <div class="wrap">
+    <div class="scatter reveal">
+      <div class="chips">
+        <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span class="chip-txt">Camera roll</span></div>
+        <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg><span class="chip-txt">Apple Notes</span></div>
+        <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg><span class="chip-txt">Text threads</span></div>
+        <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z"/><path d="M22 6l-10 7L2 6"/></svg><span class="chip-txt">Email</span></div>
+        <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg><span class="chip-txt">OneDrive folders</span></div>
+        <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg><span class="chip-txt">Notebooks</span></div>
+        <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span class="chip-txt">Your memory</span></div>
+      </div>
+      <div class="problem-copy">
+        <span class="eyebrow">The problem</span>
+        <h2>Your project information is everywhere.</h2>
+        <p>Photos are in the camera roll. Notes are in the phone. Videos are buried in text threads. Follow-ups live in someone's head.</p>
+        <p><b>Then it all has to become a report</b> — a daily log, a punch list, an RFI, a customer update, a summary for leadership. So every site visit ends the same way: hours of after-hours cleanup, sorting a camera roll and reconstructing what happened from memory.</p>
+        <p>That admin drag is billable time you're giving away, and the project details lose context the moment you leave site.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section class="section" id="how" style="background:var(--bg-elev);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">How it works</span>
+      <h2>Capture once. Let the project remember.</h2>
+      <p>FieldBinder AI keeps the project memory for you — organized by job, ready to turn into a report whenever you need one.</p>
+    </div>
+    <div class="steps reveal">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-bar"></div>
+        <h3>Create the project</h3>
+        <p>Set up the job once — customer, site, project number, contacts, dates. Everything you capture lands in the right place.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-bar"></div>
+        <h3>Capture in the field</h3>
+        <p>Photos, short videos, voice memos, notes, measurements, punch items, RFIs — captured directly into the project, online or off.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-bar"></div>
+        <h3>Tag as you go</h3>
+        <p>Mark items as safety, progress, punch, change, RFI, or follow-up. One tap keeps the whole job sorted by what matters.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-bar"></div>
+        <h3>Generate the report</h3>
+        <p>AI drafts a clean daily report, punch list, RFI list, or executive summary. Review, edit, export a branded PDF.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CAPTURE ============ -->
+<section class="section" id="capture">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Field capture</span>
+      <h2>Everything you document on site, in one project.</h2>
+      <p>Twelve capture types built around how field work actually happens — not a generic notes app bolted onto a photo library.</p>
+    </div>
+    <div class="cap-grid reveal">
+      <div class="capture-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg><div class="ci-name">Photos</div><div class="ci-sub">With AI captions</div></div>
+      <div class="capture-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg><div class="ci-name">Short video</div><div class="ci-sub">30–60 seconds</div></div>
+      <div class="capture-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4"/></svg><div class="ci-name">Voice notes</div><div class="ci-sub">AI-cleaned</div></div>
+      <div class="capture-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg><div class="ci-name">Text notes</div><div class="ci-sub">Quick entry</div></div>
+      <div class="capture-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M2 12h5l2-4 3 8 2-4h6"/><rect x="1" y="4" width="22" height="16" rx="2"/></svg><div class="ci-name">Measurements</div><div class="ci-sub">On-site dimensions</div></div>
+      <div class="capture-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><path d="M13 2v7h7"/></svg><div class="ci-name">Files</div><div class="ci-sub">Docs & attachments</div></div>
+      <div class="capture-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg><div class="ci-name">To-do items</div><div class="ci-sub">Track actions</div></div>
+      <div class="capture-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg><div class="ci-name">Punch items</div><div class="ci-sub">Close out work</div></div>
+      <div class="capture-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M20 6L9 17l-5-5"/></svg><div class="ci-name">Customer decisions</div><div class="ci-sub">Documented approvals</div></div>
+      <div class="capture-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg><div class="ci-name">Safety observations</div><div class="ci-sub">Flag & track</div></div>
+      <div class="capture-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg><div class="ci-name">Change requests</div><div class="ci-sub">Capture scope shifts</div></div>
+      <div class="capture-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg><div class="ci-name">RFI / questions</div><div class="ci-sub">Never lose an open item</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VOICE-TO-NOTE ============ -->
+<section class="section voice">
+  <div class="wrap">
+    <div class="voice-grid">
+      <div class="voice-copy reveal">
+        <span class="eyebrow">Flagship feature</span>
+        <h2>Talk while you walk. Get a clean field note.</h2>
+        <p>Record a rough voice memo on site — the way you'd actually say it. FieldBinder AI transcribes it and rewrites it into a clear, professional field note you'd be comfortable putting in front of an owner. No typing with gloves on. No cleanup back at the truck.</p>
+      </div>
+      <div class="transform reveal">
+        <div class="tcard raw">
+          <div class="tcard-label">
+            <span class="waves" aria-hidden="true">
+              <i style="height:4px"></i><i style="height:9px"></i><i style="height:12px"></i><i style="height:7px"></i><i style="height:11px"></i><i style="height:5px"></i><i style="height:9px"></i><i style="height:12px"></i><i style="height:6px"></i>
+            </span>
+            Raw voice memo
+          </div>
+          <div class="tcard-txt">"North wall has a damaged plate. Need contractor to verify existing steel. Customer wants options for light, medium, heavy repair."</div>
+        </div>
+        <div class="arrow-down" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+        </div>
+        <div class="tcard clean">
+          <div class="tcard-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><path d="M12 2l2.4 7.4H22l-6 4.5 2.3 7.1-6.3-4.6L5.7 21 8 13.9 2 9.4h7.6z"/></svg>
+            AI field note
+          </div>
+          <div class="tcard-txt">Damage was observed along the north wall plate area. Contractor should field-verify existing steel conditions prior to repair. Recommend developing light, medium, and heavy repair options for owner review.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REPORTS ============ -->
+<section class="section" id="reports">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">AI reports</span>
+      <h2>Four reports, drafted from what you captured.</h2>
+      <p>Pick a date range and the captures to include. AI writes the first draft from your real field data — you review, edit, and export a branded PDF.</p>
+    </div>
+    <div class="reports-grid reveal">
+      <div class="report">
+        <div class="report-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+        <div>
+          <h3>Daily Report</h3>
+          <p>A clean daily field log — what happened, what progressed, what got flagged — assembled from the day's captures.</p>
+          <span class="rtag">DAILY · FIELD LOG</span>
+        </div>
+      </div>
+      <div class="report">
+        <div class="report-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+        <div>
+          <h3>Punch List</h3>
+          <p>Open items organized from your photos, notes, and observations — each with context and a clear description of the work.</p>
+          <span class="rtag">CLOSEOUT · OPEN ITEMS</span>
+        </div>
+      </div>
+      <div class="report">
+        <div class="report-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg></div>
+        <div>
+          <h3>RFI List</h3>
+          <p>Field questions, gaps, and unclear conditions turned into properly framed RFI-style items ready to send.</p>
+          <span class="rtag">RFI · QUESTIONS</span>
+        </div>
+      </div>
+      <div class="report">
+        <div class="report-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg></div>
+        <div>
+          <h3>Executive Summary</h3>
+          <p>Activity, open issues, risks, completed work, and next steps — summarized for leadership or a customer update.</p>
+          <span class="rtag">LEADERSHIP · UPDATE</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ USE CASES ============ -->
+<section class="section" id="usecases" style="background:var(--bg-elev);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Where it's used</span>
+      <h2>Made for people who walk the site.</h2>
+      <p>If your work involves site visits, field conditions, and documentation that has to become reports, FieldBinder AI fits.</p>
+    </div>
+    <div class="uc-grid reveal">
+      <div class="uc"><div class="uc-num">01</div><h3>Industrial & plant projects</h3><p>Rehabs, shutdowns, and capital work inside plants, data centers, and facilities where signal is poor and documentation is constant.</p></div>
+      <div class="uc"><div class="uc-num">02</div><h3>Facility & maintenance</h3><p>Condition assessments, work verification, and reactive repairs documented by building, area, and asset.</p></div>
+      <div class="uc"><div class="uc-num">03</div><h3>Engineering consultants</h3><p>Site walks, existing-condition surveys, and field observations that turn into reports and recommendations.</p></div>
+      <div class="uc"><div class="uc-num">04</div><h3>Contractors</h3><p>Daily logs, progress photos, and punch lists captured on site instead of reconstructed at the end of the week.</p></div>
+      <div class="uc"><div class="uc-num">05</div><h3>Owners' reps</h3><p>Independent documentation of progress, issues, and decisions across projects you're overseeing on the owner's behalf.</p></div>
+      <div class="uc"><div class="uc-num">06</div><h3>Industrial sales & project teams</h3><p>Field notes from customer sites, scoping visits, and project follow-through — organized by account and job.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section class="section" id="pricing">
+  <div class="wrap">
+    <div class="section-head reveal" style="max-width:720px">
+      <span class="eyebrow">Pricing</span>
+      <h2>Start free. Upgrade when reports pay for themselves.</h2>
+      <p>The math is simple: if FieldBinder AI saves you one hour of after-hours report cleanup a week, Pro pays for itself many times over.</p>
+    </div>
+    <div class="price-grid reveal">
+      <div class="plan">
+        <div class="plan-name">Free</div>
+        <div class="plan-price"><span class="amt">$0</span><span class="per">/ forever</span></div>
+        <div class="plan-desc">Try the capture workflow on a couple of real jobs.</div>
+        <ul class="plan-feats">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>2 active projects</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Photos & text notes</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Basic project organization</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Limited storage</li>
+        </ul>
+        <a href="#join" class="btn btn-ghost">Start free</a>
+      </div>
+
+      <div class="plan featured">
+        <div class="plan-badge">MOST POPULAR</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price"><span class="amt">$29</span><span class="per">/ month</span></div>
+        <div class="plan-desc">The full AI reporting engine for working professionals.</div>
+        <ul class="plan-feats">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Everything in Basic</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>AI daily reports, punch lists, RFIs & summaries</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Voice-to-note & AI photo descriptions</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Branded PDF export with your logo</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>More storage</li>
+        </ul>
+        <a href="#join" class="btn btn-primary">Join Early Access</a>
+      </div>
+
+      <div class="plan">
+        <div class="plan-name">Basic</div>
+        <div class="plan-price"><span class="amt">$9.99</span><span class="per">/ month</span></div>
+        <div class="plan-desc">Unlimited capture and organization, without the AI reports.</div>
+        <ul class="plan-feats">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Unlimited projects</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Photos, notes & short videos</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Tags, filters & project feed</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Basic exports</li>
+        </ul>
+        <a href="#join" class="btn btn-ghost">Start with Basic</a>
+      </div>
+    </div>
+    <p class="team-note"><b>Team plan coming later</b> — shared projects, company workspaces, multi-user access, and admin controls.</p>
+  </div>
+</section>
+
+<!-- ============ SECURITY ============ -->
+<section class="section security" id="security">
+  <div class="wrap">
+    <div class="sec-grid">
+      <div class="sec-copy reveal">
+        <span class="eyebrow">Security & responsibility</span>
+        <h2>Your projects stay yours.</h2>
+        <p>FieldBinder AI is designed with private project workspaces, secure cloud storage, and controlled access — so your field documentation is organized and protected, not scattered across personal devices and inboxes.</p>
+        <div class="sec-list">
+          <div class="sec-item">
+            <div class="si-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+            <div><h4>Private project workspaces</h4><p>Each project lives in its own workspace under your account — not in a shared camera roll.</p></div>
+          </div>
+          <div class="sec-item">
+            <div class="si-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+            <div><h4>Secure cloud storage</h4><p>Captures sync to secure cloud storage with controlled access, so nothing is lost if a phone is.</p></div>
+          </div>
+          <div class="sec-item">
+            <div class="si-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg></div>
+            <div><h4>You control what's shared</h4><p>Reports are exported and shared on your terms — nothing goes out without your review.</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="disclaimer reveal">
+        <div class="d-label">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+          Please read
+        </div>
+        <p><b style="color:var(--text)">AI-generated reports are editable drafts.</b> Users are responsible for reviewing all generated content for accuracy, completeness, and suitability before sharing or relying on it.</p>
+        <p>FieldBinder AI is a documentation and drafting assistant — not a licensed engineering, legal, safety, or compliance authority. It helps you capture and organize field information and produce first-draft reports faster. Final judgment on any project decision stays with you and your team.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="final" id="join">
+  <div class="grid-bg"></div>
+  <div class="wrap">
+    <div class="final-inner reveal">
+      <span class="eyebrow" style="justify-content:center">Early access</span>
+      <h2>Capture the field.<br><span class="accent">Generate the report.</span></h2>
+      <p>Join the early access list. Be first to put FieldBinder AI on your next site visit — and help shape the reports it writes.</p>
+      <form class="signup" id="signupForm" name="early-access" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" novalidate>
+        <input type="hidden" name="form-name" value="early-access">
+        <p style="display:none"><label>Leave this empty: <input name="bot-field"></label></p>
+        <input type="email" id="email" name="email" placeholder="you@company.com" aria-label="Email address" required>
+        <button type="submit" class="btn btn-primary">Join Early Access</button>
+      </form>
+      <div class="success" id="successMsg">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+        You're on the list. We'll be in touch before launch.
+      </div>
+      <p class="signup-note" id="signupNote">No spam. Launch updates and early access only.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#" class="brand" aria-label="FieldBinder AI home">
+          <svg class="logo-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <rect x="4" y="3" width="21" height="26" rx="3" fill="#151A20" stroke="#2E80FF" stroke-width="1.6"/>
+            <rect x="4" y="3" width="5" height="26" rx="2.5" fill="#2E80FF" opacity="0.9"/>
+            <circle cx="18.5" cy="12" r="2.1" fill="#4D96FF"/>
+            <circle cx="18.5" cy="20" r="1.4" fill="#5C7A99"/>
+            <circle cx="23" cy="16" r="1.4" fill="#5C7A99"/>
+            <path d="M18.5 12 L23 16 L18.5 20" stroke="#4D96FF" stroke-width="1.1" opacity="0.8"/>
+          </svg>
+          <span>FieldBinder<span class="ai"> AI</span></span>
+        </a>
+        <p>Turn field documentation into professional project reports. Your project memory, organized by job.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Product</h5>
+        <a href="#how">How it works</a>
+        <a href="#capture">Capture</a>
+        <a href="#reports">Reports</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#security">Security</a>
+      </div>
+      <div class="foot-col">
+        <h5>Company</h5>
+        <a href="#">About</a>
+        <a href="#usecases">Use cases</a>
+        <a href="#join">Early access</a>
+        <a href="#">Contact</a>
+      </div>
+      <div class="foot-col">
+        <h5>Legal</h5>
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+        <a href="#">AI disclaimer</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© 2026 FieldBinder AI. All rights reserved.</p>
+      <p class="foot-tagline">Capture the field. Generate the report.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:0.12, rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // Early-access form (front-end only — wire to a real backend before launch)
+  const form = document.getElementById('signupForm');
+  const showSuccess = ()=>{
+    form.style.display='none';
+    document.getElementById('signupNote').style.display='none';
+    document.getElementById('successMsg').style.display='flex';
+  };
+  form.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const email = document.getElementById('email');
+    if(!email.value || !email.checkValidity()){ email.focus(); email.style.borderColor='var(--amber)'; return; }
+    // Submits to Netlify's native form handler; captures land in Netlify dashboard > Forms
+    fetch('/', {
+      method:'POST',
+      headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body:new URLSearchParams(new FormData(form)).toString()
+    }).then(showSuccess).catch(showSuccess);
+  });
+</script>
+</body>
+</html>
