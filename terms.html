@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service — FieldBinder AI</title>
+<meta name="description" content="FieldBinder AI Terms of Service — the agreement covering use of the website, early access program, and the FieldBinder AI app and web portal.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0E1216;--bg-elev:#151A20;--bg-elev-2:#1B222A;
+    --line:#232C36;--line-bright:#2E3A46;
+    --text:#F2F5F8;--text-2:#A3AEB9;--text-3:#6B7885;
+    --blue:#2E80FF;--blue-bright:#4D96FF;--blue-dim:#1E5AC0;
+    --steel:#5C7A99;--amber:#F5A623;--green:#2DBE6C;
+    --maxw:1200px;--radius:14px;--ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:rgba(46,128,255,.28);color:#fff}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif;font-weight:600;letter-spacing:-.02em;line-height:1.15}
+  :focus-visible{outline:2px solid var(--blue-bright);outline-offset:3px;border-radius:4px}
+  .grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(46,128,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(46,128,255,.05) 1px,transparent 1px);background-size:44px 44px;-webkit-mask-image:radial-gradient(ellipse 70% 70% at 50% 10%,#000 0%,transparent 75%);mask-image:radial-gradient(ellipse 70% 70% at 50% 10%,#000 0%,transparent 75%);pointer-events:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--blue-bright);display:inline-flex;align-items:center;gap:9px}
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--blue);display:inline-block}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;padding:13px 24px;border-radius:10px;border:1px solid transparent;cursor:pointer;transition:all .18s var(--ease);white-space:nowrap}
+  .btn-primary{background:var(--blue);color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.12) inset,0 8px 24px -8px rgba(46,128,255,.6)}
+  .btn-primary:hover{background:var(--blue-bright);transform:translateY(-1px)}
+  header{position:sticky;top:0;z-index:100;background:rgba(14,18,22,.78);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  nav{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .brand{display:flex;align-items:center;gap:11px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;letter-spacing:-.01em}
+  .brand .ai{color:var(--blue-bright)}
+  .logo-mark{width:30px;height:30px;flex:none}
+  .nav-links{display:flex;align-items:center;gap:30px}
+  .nav-links a{color:var(--text-2);font-size:14px;font-weight:500;transition:color .16s}
+  .nav-links a:hover{color:var(--text)}
+  .nav-cta{display:flex;align-items:center;gap:14px}
+  .nav-login{color:var(--text-2);font-size:14px;font-weight:500}
+  .nav-login:hover{color:var(--text)}
+  .menu-btn{display:none;background:none;border:1px solid var(--line-bright);border-radius:8px;padding:8px;cursor:pointer}
+  .menu-btn svg{width:20px;height:20px;stroke:var(--text)}
+
+  .l-hero{position:relative;padding:72px 0 36px;overflow:hidden}
+  .l-hero .inner{position:relative;z-index:2;max-width:800px}
+  .l-hero h1{font-size:clamp(32px,4.4vw,46px);font-weight:700;margin:18px 0 12px}
+  .updated{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--text-3);letter-spacing:.04em}
+
+  .plain{max-width:800px;margin:28px 0 0;background:var(--bg-elev);border:1px solid var(--line-bright);border-left:3px solid var(--blue);border-radius:10px;padding:22px 24px}
+  .plain h3{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--blue-bright);margin-bottom:12px}
+  .plain ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+  .plain li{display:flex;gap:9px;font-size:14px;color:var(--text-2);align-items:flex-start}
+  .plain li::before{content:"—";color:var(--steel);flex:none}
+  .plain .fine{margin-top:12px;font-size:12.5px;color:var(--text-3);font-style:italic}
+
+  .toc{display:flex;gap:8px;flex-wrap:wrap;max-width:900px;margin:28px 0 0}
+  .toc a{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.03em;color:var(--text-3);border:1px solid var(--line);border-radius:16px;padding:5px 11px;transition:all .16s}
+  .toc a:hover{color:var(--text);border-color:var(--steel)}
+
+  .doc{max-width:800px;padding:48px 0 88px}
+  .doc section{margin-bottom:44px;scroll-margin-top:86px}
+  .doc h2{font-size:20px;margin-bottom:14px;display:flex;gap:12px;align-items:baseline}
+  .doc h2 .n{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--steel);font-weight:500}
+  .doc p{color:var(--text-2);font-size:15px;margin-bottom:13px;line-height:1.7}
+  .doc p b{color:var(--text);font-weight:600}
+  .doc ul{margin:0 0 13px 2px;list-style:none;display:flex;flex-direction:column;gap:8px}
+  .doc li{display:flex;gap:10px;font-size:15px;color:var(--text-2);align-items:flex-start;line-height:1.65}
+  .doc li::before{content:"·";color:var(--blue-bright);font-weight:700;flex:none}
+  .callout{background:var(--bg-elev);border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:10px;padding:18px 20px;margin:16px 0}
+  .callout p{margin-bottom:0;font-size:14px}
+
+  footer{border-top:1px solid var(--line);padding:64px 0 40px}
+  .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+  .foot-brand{max-width:300px}
+  .foot-brand .brand{margin-bottom:16px}
+  .foot-brand p{color:var(--text-2);font-size:14px;line-height:1.6}
+  .foot-col h5{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);margin-bottom:18px}
+  .foot-col a{display:block;color:var(--text-2);font-size:14px;margin-bottom:12px;transition:color .16s}
+  .foot-col a:hover{color:var(--text)}
+  .foot-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:28px;border-top:1px solid var(--line);flex-wrap:wrap;gap:16px}
+  .foot-bottom p{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-3);letter-spacing:.02em}
+  .foot-tagline{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--steel);letter-spacing:.04em}
+
+  @media(max-width:1000px){.foot-grid{grid-template-columns:1fr 1fr;gap:32px}.foot-brand{grid-column:1/-1}}
+  @media(max-width:680px){.nav-links,.nav-login{display:none}.menu-btn{display:flex}.foot-grid{grid-template-columns:1fr}}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a href="index.html" class="brand" aria-label="FieldBinder AI home">
+        <svg class="logo-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <rect x="4" y="3" width="21" height="26" rx="3" fill="#151A20" stroke="#2E80FF" stroke-width="1.6"/>
+          <rect x="4" y="3" width="5" height="26" rx="2.5" fill="#2E80FF" opacity="0.9"/>
+          <circle cx="18.5" cy="12" r="2.1" fill="#4D96FF"/><circle cx="18.5" cy="20" r="1.4" fill="#5C7A99"/>
+          <circle cx="23" cy="16" r="1.4" fill="#5C7A99"/><path d="M18.5 12 L23 16 L18.5 20" stroke="#4D96FF" stroke-width="1.1" opacity="0.8"/>
+        </svg>
+        <span>FieldBinder<span class="ai"> AI</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="features.html">Features</a>
+        <a href="use-cases.html">Use cases</a>
+        <a href="index.html#reports">Reports</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="security.html">Security</a>
+      </div>
+      <div class="nav-cta">
+        <a href="login.html" class="nav-login">Log in</a>
+        <a href="index.html#join" class="btn btn-primary">Join Early Access</a>
+        <button class="menu-btn" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<div class="l-hero">
+  <div class="grid-bg"></div>
+  <div class="wrap">
+    <div class="inner">
+      <span class="eyebrow">Legal</span>
+      <h1>Terms of Service</h1>
+      <p class="updated">Last updated: July 2, 2026</p>
+    </div>
+    <div class="plain">
+      <h3>Plain-English summary</h3>
+      <ul>
+        <li>FieldBinder AI helps you capture field documentation and draft reports. You own your content; we need a limited license to host and process it so the product works.</li>
+        <li>AI-generated reports are editable drafts. You review and approve everything before it's used — the AI isn't a licensed professional and doesn't replace your judgment.</li>
+        <li>Paid subscriptions run through the Apple App Store. Cancel anytime through your Apple account.</li>
+        <li>Use the service lawfully, keep your account secure, don't abuse the platform.</li>
+      </ul>
+      <p class="fine">This summary is for readability only — the full terms below are what govern.</p>
+    </div>
+    <div class="toc">
+      <a href="#t1">1 Agreement</a><a href="#t2">2 The Service</a><a href="#t3">3 Eligibility</a><a href="#t4">4 Early Access</a><a href="#t5">5 Accounts</a><a href="#t6">6 Subscriptions</a><a href="#t7">7 Your Content</a><a href="#t8">8 AI Content</a><a href="#t9">9 Acceptable Use</a><a href="#t10">10 Our IP</a><a href="#t11">11 Third Parties</a><a href="#t12">12 Disclaimers</a><a href="#t13">13 Liability</a><a href="#t14">14 Indemnification</a><a href="#t15">15 Termination</a><a href="#t16">16 Changes</a><a href="#t17">17 Governing Law</a><a href="#t18">18 Contact</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="doc">
+
+    <section id="t1">
+      <h2><span class="n">01</span>Agreement to these Terms</h2>
+      <p>These Terms of Service ("Terms") are an agreement between you and FieldBinder AI ("FieldBinder," "we," "us") governing your use of the fieldbinder.ai website, the early access program, and — when released — the FieldBinder AI iPhone application and companion web portal (together, the "Service").</p>
+      <p>By accessing or using the Service, you agree to these Terms. If you're using the Service on behalf of a company, you represent that you have authority to bind that company, and "you" includes the company.</p>
+    </section>
+
+    <section id="t2">
+      <h2><span class="n">02</span>The Service</h2>
+      <p>FieldBinder AI is a field documentation and reporting tool. It lets users capture project information — photos, short videos, notes, voice memos, measurements, and field items — organized by project, and uses AI to help draft documentation such as daily reports, punch lists, RFI lists, and executive summaries.</p>
+      <p>Today, the Service consists of this website and the early access program. The app and web portal are in development; features described on this site reflect what we're building and may change before and after release.</p>
+    </section>
+
+    <section id="t3">
+      <h2><span class="n">03</span>Eligibility</h2>
+      <p>You must be at least 18 years old to use the Service. The Service is designed for professional and business use.</p>
+    </section>
+
+    <section id="t4">
+      <h2><span class="n">04</span>Early access program</h2>
+      <p>Joining the early access list means we'll contact you about the launch and may invite you to test pre-release versions. Early access and any pre-release software are provided as-is, may contain bugs, and may change or be discontinued at any time. We make no commitment that any particular feature, plan, or price described during early access will exist at launch.</p>
+      <p>If you give us feedback, suggestions, or ideas about the Service, you grant us a perpetual, irrevocable, royalty-free right to use them without restriction or obligation to you.</p>
+    </section>
+
+    <section id="t5">
+      <h2><span class="n">05</span>Accounts</h2>
+      <p>When accounts launch, you agree to provide accurate information, keep your credentials secure, and notify us promptly of any unauthorized use. You're responsible for activity that occurs under your account.</p>
+    </section>
+
+    <section id="t6">
+      <h2><span class="n">06</span>Subscriptions and billing</h2>
+      <ul>
+        <li>Paid plans are billed as auto-renewing subscriptions. For the iPhone app, subscriptions are purchased and managed through your Apple App Store account and are subject to Apple's terms.</li>
+        <li>You can cancel anytime; cancellation takes effect at the end of the current billing period. Manage or cancel App Store subscriptions in your Apple ID settings.</li>
+        <li>If you downgrade or cancel, your projects and captures remain intact, but features specific to the higher plan turn off.</li>
+        <li>Except where required by law or provided under Apple's refund policies, payments are non-refundable.</li>
+        <li>We may change plan features or pricing prospectively; changes won't apply retroactively to a period you've already paid for.</li>
+      </ul>
+    </section>
+
+    <section id="t7">
+      <h2><span class="n">07</span>Your content</h2>
+      <p><b>You own your content.</b> Photos, videos, voice memos, notes, files, project details, and reports you create remain yours.</p>
+      <p>To operate the Service, you grant us a limited, worldwide, non-exclusive license to host, store, process, transmit, and display your content — solely as needed to provide, maintain, secure, and improve the Service for you (including processing content through AI features you use). This license ends when your content is deleted from the Service, subject to routine backup cycles.</p>
+      <p>You're responsible for having the rights to the content you capture and for your use of it — including any permissions required to photograph or record at a given site.</p>
+    </section>
+
+    <section id="t8">
+      <h2><span class="n">08</span>AI-generated content</h2>
+      <div class="callout">
+        <p><b>AI-generated reports are editable drafts.</b> Users are responsible for reviewing all generated content for accuracy, completeness, and suitability before sharing or relying on it.</p>
+      </div>
+      <p>FieldBinder AI is a documentation and drafting assistant. It is <b>not</b> a licensed engineering, legal, safety, or compliance authority, and its output is not professional advice. AI systems can produce errors, omissions, or misdescriptions. Nothing generated by the Service should be relied on for any engineering, safety, legal, financial, or compliance decision without review by you and, where appropriate, a qualified professional.</p>
+    </section>
+
+    <section id="t9">
+      <h2><span class="n">09</span>Acceptable use</h2>
+      <p>You agree not to:</p>
+      <ul>
+        <li>Use the Service for any unlawful purpose or in violation of others' rights, including privacy and intellectual property rights;</li>
+        <li>Upload content that is illegal, infringing, or that you don't have the right to capture or share;</li>
+        <li>Probe, disrupt, overload, or attempt to gain unauthorized access to the Service or its systems;</li>
+        <li>Reverse engineer, scrape, or resell the Service, or use it to build a competing product;</li>
+        <li>Misrepresent AI-generated output as independently verified professional work product where such verification is required.</li>
+      </ul>
+    </section>
+
+    <section id="t10">
+      <h2><span class="n">10</span>Our intellectual property</h2>
+      <p>The Service — including its software, design, branding, and content we create — is owned by FieldBinder AI and protected by intellectual property laws. Except for the rights expressly granted to you in these Terms, we reserve all rights. "FieldBinder AI" and our logo may not be used without our permission.</p>
+    </section>
+
+    <section id="t11">
+      <h2><span class="n">11</span>Third-party services</h2>
+      <p>The Service relies on third-party providers — such as Apple (distribution and billing), cloud hosting and storage providers, and AI processing providers. Their services are subject to their own terms, and we're not responsible for third-party services we don't control.</p>
+    </section>
+
+    <section id="t12">
+      <h2><span class="n">12</span>Disclaimers</h2>
+      <p>THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE," WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, ACCURACY, AND NON-INFRINGEMENT. WE DO NOT WARRANT THAT THE SERVICE WILL BE UNINTERRUPTED, ERROR-FREE, OR THAT CONTENT (INCLUDING AI-GENERATED CONTENT) WILL BE ACCURATE OR COMPLETE.</p>
+    </section>
+
+    <section id="t13">
+      <h2><span class="n">13</span>Limitation of liability</h2>
+      <p>TO THE MAXIMUM EXTENT PERMITTED BY LAW, FIELDBINDER AI WILL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS, DATA, BUSINESS, OR GOODWILL, ARISING FROM OR RELATED TO THE SERVICE. OUR TOTAL LIABILITY FOR ALL CLAIMS RELATED TO THE SERVICE WILL NOT EXCEED THE GREATER OF (A) THE AMOUNTS YOU PAID US FOR THE SERVICE IN THE 12 MONTHS BEFORE THE CLAIM, OR (B) FIFTY U.S. DOLLARS ($50).</p>
+      <p>Some jurisdictions don't allow certain limitations, so parts of this section may not apply to you.</p>
+    </section>
+
+    <section id="t14">
+      <h2><span class="n">14</span>Indemnification</h2>
+      <p>You agree to indemnify and hold FieldBinder AI harmless from claims, damages, and expenses (including reasonable attorneys' fees) arising from your content, your use of the Service, or your violation of these Terms or applicable law.</p>
+    </section>
+
+    <section id="t15">
+      <h2><span class="n">15</span>Termination</h2>
+      <p>You can stop using the Service at any time. We may suspend or terminate access if you violate these Terms, if required by law, or if we discontinue the Service. Sections that by their nature should survive termination (including 7–14 and 17) survive.</p>
+    </section>
+
+    <section id="t16">
+      <h2><span class="n">16</span>Changes to the Service and these Terms</h2>
+      <p>We're an early-stage product and the Service will evolve. We may update these Terms from time to time; if changes are material, we'll take reasonable steps to notify you (for example, by email or in-app notice). Continued use of the Service after changes take effect means you accept the updated Terms.</p>
+    </section>
+
+    <section id="t17">
+      <h2><span class="n">17</span>Governing law</h2>
+      <p>These Terms are governed by the laws of the State of Ohio, USA, without regard to conflict-of-law rules. Courts located in Ohio will have exclusive jurisdiction over disputes arising from these Terms or the Service, and you consent to their jurisdiction.</p>
+    </section>
+
+    <section id="t18">
+      <h2><span class="n">18</span>Contact</h2>
+      <p>Questions about these Terms? Reach us through the <a href="contact.html" style="color:var(--blue-bright)">contact page</a>.</p>
+    </section>
+
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="index.html" class="brand" aria-label="FieldBinder AI home">
+          <svg class="logo-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <rect x="4" y="3" width="21" height="26" rx="3" fill="#151A20" stroke="#2E80FF" stroke-width="1.6"/>
+            <rect x="4" y="3" width="5" height="26" rx="2.5" fill="#2E80FF" opacity="0.9"/>
+            <circle cx="18.5" cy="12" r="2.1" fill="#4D96FF"/><circle cx="18.5" cy="20" r="1.4" fill="#5C7A99"/>
+            <circle cx="23" cy="16" r="1.4" fill="#5C7A99"/><path d="M18.5 12 L23 16 L18.5 20" stroke="#4D96FF" stroke-width="1.1" opacity="0.8"/>
+          </svg>
+          <span>FieldBinder<span class="ai"> AI</span></span>
+        </a>
+        <p>Turn field documentation into professional project reports. Your project memory, organized by job.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Product</h5>
+        <a href="features.html">Features</a>
+        <a href="use-cases.html">Use cases</a>
+        <a href="index.html#reports">Reports</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="security.html">Security</a>
+      </div>
+      <div class="foot-col">
+        <h5>Company</h5>
+        <a href="about.html">About</a>
+        <a href="index.html#join">Early access</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="foot-col">
+        <h5>Legal</h5>
+        <a href="terms.html">Terms</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="privacy.html">AI disclaimer</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© 2026 FieldBinder AI. All rights reserved.</p>
+      <p class="foot-tagline">Capture the field. Generate the report.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

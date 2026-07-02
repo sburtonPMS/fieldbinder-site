@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — FieldBinder AI</title>
+<meta name="description" content="FieldBinder AI Privacy Policy — what we collect today (early access emails, contact messages), what the app will collect at launch, how AI processing works, and your choices.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0E1216;--bg-elev:#151A20;--bg-elev-2:#1B222A;
+    --line:#232C36;--line-bright:#2E3A46;
+    --text:#F2F5F8;--text-2:#A3AEB9;--text-3:#6B7885;
+    --blue:#2E80FF;--blue-bright:#4D96FF;--blue-dim:#1E5AC0;
+    --steel:#5C7A99;--amber:#F5A623;--green:#2DBE6C;
+    --maxw:1200px;--radius:14px;--ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:rgba(46,128,255,.28);color:#fff}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif;font-weight:600;letter-spacing:-.02em;line-height:1.15}
+  :focus-visible{outline:2px solid var(--blue-bright);outline-offset:3px;border-radius:4px}
+  .grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(46,128,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(46,128,255,.05) 1px,transparent 1px);background-size:44px 44px;-webkit-mask-image:radial-gradient(ellipse 70% 70% at 50% 10%,#000 0%,transparent 75%);mask-image:radial-gradient(ellipse 70% 70% at 50% 10%,#000 0%,transparent 75%);pointer-events:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--blue-bright);display:inline-flex;align-items:center;gap:9px}
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--blue);display:inline-block}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;padding:13px 24px;border-radius:10px;border:1px solid transparent;cursor:pointer;transition:all .18s var(--ease);white-space:nowrap}
+  .btn-primary{background:var(--blue);color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.12) inset,0 8px 24px -8px rgba(46,128,255,.6)}
+  .btn-primary:hover{background:var(--blue-bright);transform:translateY(-1px)}
+  header{position:sticky;top:0;z-index:100;background:rgba(14,18,22,.78);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  nav{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .brand{display:flex;align-items:center;gap:11px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;letter-spacing:-.01em}
+  .brand .ai{color:var(--blue-bright)}
+  .logo-mark{width:30px;height:30px;flex:none}
+  .nav-links{display:flex;align-items:center;gap:30px}
+  .nav-links a{color:var(--text-2);font-size:14px;font-weight:500;transition:color .16s}
+  .nav-links a:hover{color:var(--text)}
+  .nav-cta{display:flex;align-items:center;gap:14px}
+  .nav-login{color:var(--text-2);font-size:14px;font-weight:500}
+  .nav-login:hover{color:var(--text)}
+  .menu-btn{display:none;background:none;border:1px solid var(--line-bright);border-radius:8px;padding:8px;cursor:pointer}
+  .menu-btn svg{width:20px;height:20px;stroke:var(--text)}
+
+  .l-hero{position:relative;padding:72px 0 36px;overflow:hidden}
+  .l-hero .inner{position:relative;z-index:2;max-width:800px}
+  .l-hero h1{font-size:clamp(32px,4.4vw,46px);font-weight:700;margin:18px 0 12px}
+  .updated{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--text-3);letter-spacing:.04em}
+
+  .plain{max-width:800px;margin:28px 0 0;background:var(--bg-elev);border:1px solid var(--line-bright);border-left:3px solid var(--blue);border-radius:10px;padding:22px 24px}
+  .plain h3{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--blue-bright);margin-bottom:12px}
+  .plain ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+  .plain li{display:flex;gap:9px;font-size:14px;color:var(--text-2);align-items:flex-start}
+  .plain li::before{content:"—";color:var(--steel);flex:none}
+  .plain .fine{margin-top:12px;font-size:12.5px;color:var(--text-3);font-style:italic}
+
+  .toc{display:flex;gap:8px;flex-wrap:wrap;max-width:900px;margin:28px 0 0}
+  .toc a{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.03em;color:var(--text-3);border:1px solid var(--line);border-radius:16px;padding:5px 11px;transition:all .16s}
+  .toc a:hover{color:var(--text);border-color:var(--steel)}
+
+  .doc{max-width:800px;padding:48px 0 88px}
+  .doc section{margin-bottom:44px;scroll-margin-top:86px}
+  .doc h2{font-size:20px;margin-bottom:14px;display:flex;gap:12px;align-items:baseline}
+  .doc h2 .n{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--steel);font-weight:500}
+  .doc h3{font-size:15.5px;margin:18px 0 10px;color:var(--text)}
+  .doc p{color:var(--text-2);font-size:15px;margin-bottom:13px;line-height:1.7}
+  .doc p b{color:var(--text);font-weight:600}
+  .doc ul{margin:0 0 13px 2px;list-style:none;display:flex;flex-direction:column;gap:8px}
+  .doc li{display:flex;gap:10px;font-size:15px;color:var(--text-2);align-items:flex-start;line-height:1.65}
+  .doc li::before{content:"·";color:var(--blue-bright);font-weight:700;flex:none}
+  .callout{background:var(--bg-elev);border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:10px;padding:18px 20px;margin:16px 0}
+  .callout p{margin-bottom:0;font-size:14px}
+
+  footer{border-top:1px solid var(--line);padding:64px 0 40px}
+  .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+  .foot-brand{max-width:300px}
+  .foot-brand .brand{margin-bottom:16px}
+  .foot-brand p{color:var(--text-2);font-size:14px;line-height:1.6}
+  .foot-col h5{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);margin-bottom:18px}
+  .foot-col a{display:block;color:var(--text-2);font-size:14px;margin-bottom:12px;transition:color .16s}
+  .foot-col a:hover{color:var(--text)}
+  .foot-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:28px;border-top:1px solid var(--line);flex-wrap:wrap;gap:16px}
+  .foot-bottom p{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-3);letter-spacing:.02em}
+  .foot-tagline{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--steel);letter-spacing:.04em}
+
+  @media(max-width:1000px){.foot-grid{grid-template-columns:1fr 1fr;gap:32px}.foot-brand{grid-column:1/-1}}
+  @media(max-width:680px){.nav-links,.nav-login{display:none}.menu-btn{display:flex}.foot-grid{grid-template-columns:1fr}}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a href="index.html" class="brand" aria-label="FieldBinder AI home">
+        <svg class="logo-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <rect x="4" y="3" width="21" height="26" rx="3" fill="#151A20" stroke="#2E80FF" stroke-width="1.6"/>
+          <rect x="4" y="3" width="5" height="26" rx="2.5" fill="#2E80FF" opacity="0.9"/>
+          <circle cx="18.5" cy="12" r="2.1" fill="#4D96FF"/><circle cx="18.5" cy="20" r="1.4" fill="#5C7A99"/>
+          <circle cx="23" cy="16" r="1.4" fill="#5C7A99"/><path d="M18.5 12 L23 16 L18.5 20" stroke="#4D96FF" stroke-width="1.1" opacity="0.8"/>
+        </svg>
+        <span>FieldBinder<span class="ai"> AI</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="features.html">Features</a>
+        <a href="use-cases.html">Use cases</a>
+        <a href="index.html#reports">Reports</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="security.html">Security</a>
+      </div>
+      <div class="nav-cta">
+        <a href="login.html" class="nav-login">Log in</a>
+        <a href="index.html#join" class="btn btn-primary">Join Early Access</a>
+        <button class="menu-btn" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<div class="l-hero">
+  <div class="grid-bg"></div>
+  <div class="wrap">
+    <div class="inner">
+      <span class="eyebrow">Legal</span>
+      <h1>Privacy Policy</h1>
+      <p class="updated">Last updated: July 2, 2026</p>
+    </div>
+    <div class="plain">
+      <h3>Plain-English summary</h3>
+      <ul>
+        <li>Right now, this website only collects what you give us: your email for early access, and whatever you put in the contact form.</li>
+        <li>When the app launches, your project data — photos, videos, voice notes, reports — lives in your private workspace and is used to run the service for you.</li>
+        <li>AI features process your content to generate your notes and reports. We don't sell your data, and your project content isn't shared with other users.</li>
+        <li>Want off the list or your data deleted? Contact us and we'll handle it.</li>
+      </ul>
+      <p class="fine">This summary is for readability only — the full policy below is what governs.</p>
+    </div>
+    <div class="toc">
+      <a href="#p1">1 Scope</a><a href="#p2">2 What we collect today</a><a href="#p3">3 What the app will collect</a><a href="#p4">4 How we use it</a><a href="#p5">5 AI processing</a><a href="#p6">6 Sharing</a><a href="#p7">7 Retention</a><a href="#p8">8 Security</a><a href="#p9">9 Your choices</a><a href="#p10">10 Children</a><a href="#p11">11 International</a><a href="#p12">12 Changes</a><a href="#p13">13 Contact</a><a href="#ai-disclaimer">14 AI disclaimer</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="doc">
+
+    <section id="p1">
+      <h2><span class="n">01</span>Scope</h2>
+      <p>This Privacy Policy explains how FieldBinder AI ("FieldBinder," "we," "us") collects, uses, and shares information in connection with the fieldbinder.ai website, the early access program, and — when released — the FieldBinder AI iPhone application and companion web portal (together, the "Service").</p>
+      <p>Because the app is in development, this policy describes both what we collect <b>today</b> (website phase) and what we <b>will</b> collect when the app launches. We'll update this policy before launch if practices change.</p>
+    </section>
+
+    <section id="p2">
+      <h2><span class="n">02</span>What we collect today</h2>
+      <ul>
+        <li><b>Early access signups:</b> the email address you submit to join the list.</li>
+        <li><b>Contact form messages:</b> your name, email, role (if you choose one), and the message you send.</li>
+        <li><b>Basic technical data:</b> standard server logs and aggregate usage information collected by our hosting provider (such as IP address, browser type, and pages visited) used for security and site operation.</li>
+      </ul>
+      <p>The website does not run advertising trackers. Fonts are served by Google Fonts, and forms and hosting are provided by Netlify; those providers process technical data as part of delivering the site.</p>
+    </section>
+
+    <section id="p3">
+      <h2><span class="n">03</span>What the app will collect at launch</h2>
+      <h3>Account and company information</h3>
+      <ul>
+        <li>Name, email, and login credentials (including sign-in via Apple or Google if offered);</li>
+        <li>Company profile details and your company logo for branded reports;</li>
+        <li>Subscription status (billing itself is handled by Apple — we don't receive your full payment card details).</li>
+      </ul>
+      <h3>Project content you create</h3>
+      <ul>
+        <li>Projects and their details (customer, site, contacts, dates, notes);</li>
+        <li>Captures: photos, short videos, voice memos and their transcriptions, text notes, files, measurements, tags, and field items;</li>
+        <li>Location data attached to captures, if you enable location permissions;</li>
+        <li>Reports generated and edited in the Service.</li>
+      </ul>
+      <h3>Device and usage data</h3>
+      <ul>
+        <li>Device type, OS version, app version, crash logs, and feature usage — used to keep the app working and improve it.</li>
+      </ul>
+    </section>
+
+    <section id="p4">
+      <h2><span class="n">04</span>How we use information</h2>
+      <ul>
+        <li>To provide and operate the Service — storing your projects, syncing captures, and generating your reports;</li>
+        <li>To communicate with you — early access updates, launch notices, responses to your messages, and service announcements;</li>
+        <li>To secure the Service, prevent abuse, and comply with legal obligations;</li>
+        <li>To understand usage in aggregate and improve the product.</li>
+      </ul>
+      <p>We do not sell your personal information, and we don't use your project content for advertising.</p>
+    </section>
+
+    <section id="p5">
+      <h2><span class="n">05</span>AI processing</h2>
+      <p>AI features — voice-to-note cleanup, photo descriptions, and report generation — work by processing the content you choose to run through them. That processing may be performed by trusted third-party AI service providers under agreements that restrict use of your content to providing the service.</p>
+      <p><b>Your project content stays yours:</b> it lives in your private workspace, it's used to generate <b>your</b> notes and reports, and it is not shared with other FieldBinder users. We do not use your project content to build products for other customers.</p>
+    </section>
+
+    <section id="p6">
+      <h2><span class="n">06</span>How we share information</h2>
+      <p>We share information only with:</p>
+      <ul>
+        <li><b>Service providers</b> that help us run the Service — hosting, cloud storage, form processing, email delivery, analytics, and AI processing — bound to use it only on our behalf;</li>
+        <li><b>Apple</b>, for app distribution and subscription billing, under Apple's terms;</li>
+        <li><b>Legal recipients</b>, if required by law or to protect rights, safety, or the integrity of the Service;</li>
+        <li><b>A successor</b>, in connection with a merger, acquisition, or sale of assets — with notice to you.</li>
+      </ul>
+    </section>
+
+    <section id="p7">
+      <h2><span class="n">07</span>Data retention</h2>
+      <p>We keep early access and contact information until you ask us to remove it or it's no longer needed. When the app launches, project content is retained while your account is active; if you delete content or your account, we delete it from active systems within a reasonable period, subject to routine backup cycles and legal requirements.</p>
+    </section>
+
+    <section id="p8">
+      <h2><span class="n">08</span>Security</h2>
+      <p>The Service is designed with private project workspaces, secure cloud storage, and controlled access. No method of transmission or storage is 100% secure, and we don't promise otherwise — but protecting your project record is central to what this product is, and our practices will be documented on our <a href="security.html" style="color:var(--blue-bright)">Security page</a> as they mature.</p>
+    </section>
+
+    <section id="p9">
+      <h2><span class="n">09</span>Your choices and rights</h2>
+      <ul>
+        <li><b>Email:</b> every marketing email includes an unsubscribe option, or contact us and we'll remove you.</li>
+        <li><b>Access, correction, deletion:</b> contact us to request a copy of your information, correct it, or have it deleted. Depending on where you live, you may have additional rights under applicable privacy laws, and we'll honor valid requests.</li>
+        <li><b>Location:</b> location tagging in the app is controlled by your device permissions and can be turned off at any time.</li>
+      </ul>
+    </section>
+
+    <section id="p10">
+      <h2><span class="n">10</span>Children</h2>
+      <p>The Service is a professional tool intended for adults. It is not directed to children under 13, and we don't knowingly collect their information. If you believe a child has provided us information, contact us and we'll delete it.</p>
+    </section>
+
+    <section id="p11">
+      <h2><span class="n">11</span>International users</h2>
+      <p>We're based in the United States and process information there. If you use the Service from elsewhere, you understand your information will be transferred to and processed in the U.S.</p>
+    </section>
+
+    <section id="p12">
+      <h2><span class="n">12</span>Changes to this policy</h2>
+      <p>We'll update this policy as the product evolves — including a fuller version before the app launches. Material changes will be noted here with a new "Last updated" date, and where appropriate we'll notify you directly.</p>
+    </section>
+
+    <section id="p13">
+      <h2><span class="n">13</span>Contact</h2>
+      <p>Privacy questions or requests? Reach us through the <a href="contact.html" style="color:var(--blue-bright)">contact page</a> and we'll respond within a reasonable time.</p>
+    </section>
+
+    <section id="ai-disclaimer">
+      <h2><span class="n">14</span>AI content disclaimer</h2>
+      <div class="callout">
+        <p><b>AI-generated reports are editable drafts.</b> Users are responsible for reviewing all generated content for accuracy, completeness, and suitability before sharing or relying on it.</p>
+      </div>
+      <p>FieldBinder AI is a documentation and drafting assistant — not a licensed engineering, legal, safety, or compliance authority. AI output can contain errors or omissions, and nothing generated by the Service is professional advice. Final judgment on any project, safety, legal, or compliance matter stays with you and your qualified professionals.</p>
+    </section>
+
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="index.html" class="brand" aria-label="FieldBinder AI home">
+          <svg class="logo-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <rect x="4" y="3" width="21" height="26" rx="3" fill="#151A20" stroke="#2E80FF" stroke-width="1.6"/>
+            <rect x="4" y="3" width="5" height="26" rx="2.5" fill="#2E80FF" opacity="0.9"/>
+            <circle cx="18.5" cy="12" r="2.1" fill="#4D96FF"/><circle cx="18.5" cy="20" r="1.4" fill="#5C7A99"/>
+            <circle cx="23" cy="16" r="1.4" fill="#5C7A99"/><path d="M18.5 12 L23 16 L18.5 20" stroke="#4D96FF" stroke-width="1.1" opacity="0.8"/>
+          </svg>
+          <span>FieldBinder<span class="ai"> AI</span></span>
+        </a>
+        <p>Turn field documentation into professional project reports. Your project memory, organized by job.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Product</h5>
+        <a href="features.html">Features</a>
+        <a href="use-cases.html">Use cases</a>
+        <a href="index.html#reports">Reports</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="security.html">Security</a>
+      </div>
+      <div class="foot-col">
+        <h5>Company</h5>
+        <a href="about.html">About</a>
+        <a href="index.html#join">Early access</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="foot-col">
+        <h5>Legal</h5>
+        <a href="terms.html">Terms</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="privacy.html">AI disclaimer</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© 2026 FieldBinder AI. All rights reserved.</p>
+      <p class="foot-tagline">Capture the field. Generate the report.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
