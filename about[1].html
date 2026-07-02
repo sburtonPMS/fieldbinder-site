@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — FieldBinder AI</title>
+<meta name="description" content="FieldBinder AI was built from a real field and project management problem: project information scattered across phones, emails, folders, and memory. Here's the story and the principles behind the product.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0E1216;--bg-elev:#151A20;--bg-elev-2:#1B222A;
+    --line:#232C36;--line-bright:#2E3A46;
+    --text:#F2F5F8;--text-2:#A3AEB9;--text-3:#6B7885;
+    --blue:#2E80FF;--blue-bright:#4D96FF;--blue-dim:#1E5AC0;
+    --steel:#5C7A99;--amber:#F5A623;--green:#2DBE6C;
+    --maxw:1200px;--radius:14px;--radius-sm:10px;--ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:rgba(46,128,255,.28);color:#fff}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;font-weight:600;letter-spacing:-.02em;line-height:1.1}
+  :focus-visible{outline:2px solid var(--blue-bright);outline-offset:3px;border-radius:4px}
+
+  .grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(46,128,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(46,128,255,.05) 1px,transparent 1px);background-size:44px 44px;-webkit-mask-image:radial-gradient(ellipse 70% 70% at 50% 20%,#000 0%,transparent 75%);mask-image:radial-gradient(ellipse 70% 70% at 50% 20%,#000 0%,transparent 75%);pointer-events:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .section{padding:88px 0;position:relative}
+
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--blue-bright);display:inline-flex;align-items:center;gap:9px}
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--blue);display:inline-block}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;padding:13px 24px;border-radius:10px;border:1px solid transparent;cursor:pointer;transition:all .18s var(--ease);white-space:nowrap}
+  .btn-primary{background:var(--blue);color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.12) inset,0 8px 24px -8px rgba(46,128,255,.6)}
+  .btn-primary:hover{background:var(--blue-bright);transform:translateY(-1px);box-shadow:0 1px 0 rgba(255,255,255,.16) inset,0 12px 30px -8px rgba(46,128,255,.7)}
+  .btn-ghost{background:transparent;color:var(--text);border-color:var(--line-bright)}
+  .btn-ghost:hover{border-color:var(--steel);background:rgba(92,122,153,.08)}
+  .btn svg{width:16px;height:16px}
+
+  header{position:sticky;top:0;z-index:100;background:rgba(14,18,22,.78);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  nav{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .brand{display:flex;align-items:center;gap:11px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;letter-spacing:-.01em}
+  .brand .ai{color:var(--blue-bright)}
+  .logo-mark{width:30px;height:30px;flex:none}
+  .nav-links{display:flex;align-items:center;gap:30px}
+  .nav-links a{color:var(--text-2);font-size:14px;font-weight:500;transition:color .16s}
+  .nav-links a:hover,.nav-links a.active{color:var(--text)}
+  .nav-cta{display:flex;align-items:center;gap:14px}
+  .nav-login{color:var(--text-2);font-size:14px;font-weight:500}
+  .nav-login:hover{color:var(--text)}
+  .menu-btn{display:none;background:none;border:1px solid var(--line-bright);border-radius:8px;padding:8px;cursor:pointer}
+  .menu-btn svg{width:20px;height:20px;stroke:var(--text)}
+
+  .a-hero{position:relative;padding:84px 0 60px;overflow:hidden}
+  .a-hero .inner{position:relative;z-index:2;max-width:820px}
+  .a-hero h1{font-size:clamp(36px,5vw,56px);font-weight:700;margin:20px 0 22px}
+  .a-hero h1 .accent{color:var(--blue-bright)}
+  .a-hero p{font-size:clamp(17px,1.7vw,20px);color:var(--text-2);max-width:680px}
+
+  /* story */
+  .story{max-width:760px}
+  .story p{color:var(--text-2);font-size:16.5px;margin-bottom:20px;line-height:1.75}
+  .story p b{color:var(--text);font-weight:600}
+  .story .pull{border-left:3px solid var(--blue);padding:6px 0 6px 22px;margin:30px 0;font-family:'Space Grotesk',sans-serif;font-size:20px;line-height:1.45;color:var(--text);font-weight:500}
+
+  /* principles */
+  .prin-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  .prin{background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);padding:26px;transition:border-color .2s}
+  .prin:hover{border-color:var(--line-bright)}
+  .prin .num{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.12em;color:var(--steel)}
+  .prin h3{font-size:18px;margin:12px 0 8px}
+  .prin p{color:var(--text-2);font-size:14.5px}
+
+  /* is / is not */
+  .isnot-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch}
+  .icard{background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius);padding:28px}
+  .icard.is{border-color:rgba(46,128,255,.35)}
+  .icard h3{font-size:17px;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+  .icard h3 svg{width:18px;height:18px;flex:none}
+  .icard.is h3 svg{stroke:var(--blue-bright)}
+  .icard.not h3 svg{stroke:var(--text-3)}
+  .icard .sub{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:18px}
+  .icard ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+  .icard li{display:flex;gap:10px;font-size:14px;color:var(--text-2);align-items:flex-start}
+  .icard.is li svg{width:15px;height:15px;flex:none;margin-top:3px;stroke:var(--blue-bright)}
+  .icard.not li svg{width:15px;height:15px;flex:none;margin-top:3px;stroke:var(--text-3)}
+
+  .final{position:relative;text-align:center;padding:104px 0;overflow:hidden;border-top:1px solid var(--line)}
+  .final .grid-bg{-webkit-mask-image:radial-gradient(ellipse 70% 80% at 50% 50%,#000,transparent 70%);mask-image:radial-gradient(ellipse 70% 80% at 50% 50%,#000,transparent 70%)}
+  .final-inner{position:relative;z-index:2;max-width:660px;margin:0 auto}
+  .final h2{font-size:clamp(30px,4.4vw,48px);font-weight:700;margin:20px 0 18px}
+  .final h2 .accent{color:var(--blue-bright)}
+  .final p{color:var(--text-2);font-size:18px;margin-bottom:32px}
+  .final .btn-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+  footer{border-top:1px solid var(--line);padding:64px 0 40px}
+  .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+  .foot-brand{max-width:300px}
+  .foot-brand .brand{margin-bottom:16px}
+  .foot-brand p{color:var(--text-2);font-size:14px;line-height:1.6}
+  .foot-col h5{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);margin-bottom:18px}
+  .foot-col a{display:block;color:var(--text-2);font-size:14px;margin-bottom:12px;transition:color .16s}
+  .foot-col a:hover{color:var(--text)}
+  .foot-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:28px;border-top:1px solid var(--line);flex-wrap:wrap;gap:16px}
+  .foot-bottom p{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-3);letter-spacing:.02em}
+  .foot-tagline{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--steel);letter-spacing:.04em}
+
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+
+  @media(max-width:1000px){
+    .prin-grid,.isnot-grid{grid-template-columns:1fr}
+    .foot-grid{grid-template-columns:1fr 1fr;gap:32px}
+    .foot-brand{grid-column:1/-1}
+  }
+  @media(max-width:680px){
+    .nav-links,.nav-login{display:none}
+    .menu-btn{display:flex}
+    .section{padding:64px 0}
+    .foot-grid{grid-template-columns:1fr}
+  }
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a href="index.html" class="brand" aria-label="FieldBinder AI home">
+        <svg class="logo-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <rect x="4" y="3" width="21" height="26" rx="3" fill="#151A20" stroke="#2E80FF" stroke-width="1.6"/>
+          <rect x="4" y="3" width="5" height="26" rx="2.5" fill="#2E80FF" opacity="0.9"/>
+          <circle cx="18.5" cy="12" r="2.1" fill="#4D96FF"/><circle cx="18.5" cy="20" r="1.4" fill="#5C7A99"/>
+          <circle cx="23" cy="16" r="1.4" fill="#5C7A99"/><path d="M18.5 12 L23 16 L18.5 20" stroke="#4D96FF" stroke-width="1.1" opacity="0.8"/>
+        </svg>
+        <span>FieldBinder<span class="ai"> AI</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="features.html">Features</a>
+        <a href="use-cases.html">Use cases</a>
+        <a href="index.html#reports">Reports</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="security.html">Security</a>
+      </div>
+      <div class="nav-cta">
+        <a href="login.html" class="nav-login">Log in</a>
+        <a href="index.html#join" class="btn btn-primary">Join Early Access</a>
+        <button class="menu-btn" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="a-hero">
+  <div class="grid-bg"></div>
+  <div class="wrap">
+    <div class="inner">
+      <span class="eyebrow">About</span>
+      <h1>Built from the field,<br><span class="accent">not the boardroom.</span></h1>
+      <p>FieldBinder AI exists because of a problem every project professional knows by heart — and because nobody had solved it simply enough.</p>
+    </div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="section" style="padding-top:24px">
+  <div class="wrap">
+    <div class="story reveal">
+      <span class="eyebrow">The story</span>
+      <h2 style="font-size:clamp(26px,3.4vw,36px);margin:16px 0 22px">The problem was lived before it was solved.</h2>
+      <p>FieldBinder AI came out of real project management and field documentation work — walking industrial sites, managing capital projects, assessing conditions, and coordinating contractors. The kind of work where you leave a site with two hundred photos, a dozen voice-note ideas, measurements on a scrap of paper, and three follow-ups living in your head.</p>
+      <p>And then the second job starts: sorting the camera roll. Matching photos to issues. Reconstructing what happened from memory. Turning it all into a daily report, a punch list, an RFI, or a summary for someone who wasn't there. <b>The site visit takes two hours. The documentation takes the evening.</b></p>
+      <div class="pull">Project information gets scattered across phones, texts, emails, folders, notebooks, and memory — and the project pays for it later.</div>
+      <p>The tools that existed were built for big construction programs — heavy platforms with modules, seats, and setup projects of their own. Nothing was built for the individual professional who just needs to <b>capture project details once, keep them organized by job, and get a clean report out the other side.</b></p>
+      <p>So that's what got built. FieldBinder AI is for people who actually walk sites, manage project details, and need professional documentation — without adopting an enterprise platform to get it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRINCIPLES -->
+<section class="section" style="background:var(--bg-elev);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div style="max-width:680px;margin-bottom:44px" class="reveal">
+      <span class="eyebrow">What guides the product</span>
+      <h2 style="font-size:clamp(26px,3.6vw,38px);margin:16px 0 14px">Four principles, applied to every decision.</h2>
+    </div>
+    <div class="prin-grid reveal">
+      <div class="prin">
+        <div class="num">01</div>
+        <h3>Field-first, always.</h3>
+        <p>The product starts where the work starts — on site, on a phone, often without signal. If a feature doesn't survive gloves, ladders, and dead zones, it doesn't ship.</p>
+      </div>
+      <div class="prin">
+        <div class="num">02</div>
+        <h3>Capture once.</h3>
+        <p>Information should be entered one time, in one place, at the moment it exists — then reused for every report that needs it. Re-typing is the enemy.</p>
+      </div>
+      <div class="prin">
+        <div class="num">03</div>
+        <h3>AI that saves admin time — nothing else.</h3>
+        <p>No gimmicks, no chatbots for the sake of it. AI earns its place here by doing one job: turning field captures into professional documentation faster than you can.</p>
+      </div>
+      <div class="prin">
+        <div class="num">04</div>
+        <h3>Simple beats complete.</h3>
+        <p>Big platforms win feature checklists. FieldBinder AI wins the two hours after your site visit. We'd rather do the core job perfectly than everything adequately.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IS / IS NOT -->
+<section class="section">
+  <div class="wrap">
+    <div style="max-width:680px;margin-bottom:44px" class="reveal">
+      <span class="eyebrow">Positioning, plainly</span>
+      <h2 style="font-size:clamp(26px,3.6vw,38px);margin:16px 0 14px">What FieldBinder AI is — and isn't.</h2>
+      <p style="color:var(--text-2);font-size:16.5px">Knowing what a tool won't do is as useful as knowing what it will. Here's where we stand on purpose.</p>
+    </div>
+    <div class="isnot-grid reveal">
+      <div class="icard is">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>What it is</h3>
+        <div class="sub">On purpose</div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg>A project memory app — organized by job</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg>A field documentation and capture tool</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg>A field-reporting assistant that drafts from real captures</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg>An AI report generator for dailies, punch lists, RFIs, and summaries</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M20 6L9 17l-5-5"/></svg>Built for individual pros and small teams first</li>
+        </ul>
+      </div>
+      <div class="icard not">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>What it isn't</h3>
+        <div class="sub">Also on purpose</div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M18 6L6 18M6 6l12 12"/></svg>A full construction ERP or management platform</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M18 6L6 18M6 6l12 12"/></svg>A crew scheduling or drawing-management tool</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M18 6L6 18M6 6l12 12"/></svg>A replacement for Procore or Fieldwire on large programs</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M18 6L6 18M6 6l12 12"/></svg>Generic cloud photo storage</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2"><path d="M18 6L6 18M6 6l12 12"/></svg>A general-purpose AI chatbot</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final">
+  <div class="grid-bg"></div>
+  <div class="wrap">
+    <div class="final-inner reveal">
+      <span class="eyebrow" style="justify-content:center">Get started</span>
+      <h2>Sound like your problem?<br><span class="accent">It was ours too.</span></h2>
+      <p>Join the early access list and help shape the tool from the first release.</p>
+      <div class="btn-row">
+        <a href="index.html#join" class="btn btn-primary">Join Early Access
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="contact.html" class="btn btn-ghost">Get in touch</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="index.html" class="brand" aria-label="FieldBinder AI home">
+          <svg class="logo-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <rect x="4" y="3" width="21" height="26" rx="3" fill="#151A20" stroke="#2E80FF" stroke-width="1.6"/>
+            <rect x="4" y="3" width="5" height="26" rx="2.5" fill="#2E80FF" opacity="0.9"/>
+            <circle cx="18.5" cy="12" r="2.1" fill="#4D96FF"/><circle cx="18.5" cy="20" r="1.4" fill="#5C7A99"/>
+            <circle cx="23" cy="16" r="1.4" fill="#5C7A99"/><path d="M18.5 12 L23 16 L18.5 20" stroke="#4D96FF" stroke-width="1.1" opacity="0.8"/>
+          </svg>
+          <span>FieldBinder<span class="ai"> AI</span></span>
+        </a>
+        <p>Turn field documentation into professional project reports. Your project memory, organized by job.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Product</h5>
+        <a href="features.html">Features</a>
+        <a href="use-cases.html">Use cases</a>
+        <a href="index.html#reports">Reports</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="security.html">Security</a>
+      </div>
+      <div class="foot-col">
+        <h5>Company</h5>
+        <a href="about.html">About</a>
+        <a href="index.html#join">Early access</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="foot-col">
+        <h5>Legal</h5>
+        <a href="terms.html">Terms</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="privacy.html">AI disclaimer</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© 2026 FieldBinder AI. All rights reserved.</p>
+      <p class="foot-tagline">Capture the field. Generate the report.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

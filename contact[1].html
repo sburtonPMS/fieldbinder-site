@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — FieldBinder AI</title>
+<meta name="description" content="Get in touch with FieldBinder AI — early access questions, feedback from the field, partnerships, or press. Straight answers, fast.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0E1216;--bg-elev:#151A20;--bg-elev-2:#1B222A;
+    --line:#232C36;--line-bright:#2E3A46;
+    --text:#F2F5F8;--text-2:#A3AEB9;--text-3:#6B7885;
+    --blue:#2E80FF;--blue-bright:#4D96FF;--blue-dim:#1E5AC0;
+    --steel:#5C7A99;--amber:#F5A623;--green:#2DBE6C;
+    --maxw:1200px;--radius:14px;--radius-sm:10px;--ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:rgba(46,128,255,.28);color:#fff}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;font-weight:600;letter-spacing:-.02em;line-height:1.1}
+  :focus-visible{outline:2px solid var(--blue-bright);outline-offset:3px;border-radius:4px}
+
+  .grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(46,128,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(46,128,255,.05) 1px,transparent 1px);background-size:44px 44px;-webkit-mask-image:radial-gradient(ellipse 70% 70% at 50% 20%,#000 0%,transparent 75%);mask-image:radial-gradient(ellipse 70% 70% at 50% 20%,#000 0%,transparent 75%);pointer-events:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .section{padding:88px 0;position:relative}
+
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--blue-bright);display:inline-flex;align-items:center;gap:9px}
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--blue);display:inline-block}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;padding:13px 24px;border-radius:10px;border:1px solid transparent;cursor:pointer;transition:all .18s var(--ease);white-space:nowrap}
+  .btn-primary{background:var(--blue);color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.12) inset,0 8px 24px -8px rgba(46,128,255,.6)}
+  .btn-primary:hover{background:var(--blue-bright);transform:translateY(-1px);box-shadow:0 1px 0 rgba(255,255,255,.16) inset,0 12px 30px -8px rgba(46,128,255,.7)}
+  .btn-ghost{background:transparent;color:var(--text);border-color:var(--line-bright)}
+  .btn-ghost:hover{border-color:var(--steel);background:rgba(92,122,153,.08)}
+  .btn svg{width:16px;height:16px}
+
+  header{position:sticky;top:0;z-index:100;background:rgba(14,18,22,.78);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  nav{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .brand{display:flex;align-items:center;gap:11px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;letter-spacing:-.01em}
+  .brand .ai{color:var(--blue-bright)}
+  .logo-mark{width:30px;height:30px;flex:none}
+  .nav-links{display:flex;align-items:center;gap:30px}
+  .nav-links a{color:var(--text-2);font-size:14px;font-weight:500;transition:color .16s}
+  .nav-links a:hover,.nav-links a.active{color:var(--text)}
+  .nav-cta{display:flex;align-items:center;gap:14px}
+  .nav-login{color:var(--text-2);font-size:14px;font-weight:500}
+  .nav-login:hover{color:var(--text)}
+  .menu-btn{display:none;background:none;border:1px solid var(--line-bright);border-radius:8px;padding:8px;cursor:pointer}
+  .menu-btn svg{width:20px;height:20px;stroke:var(--text)}
+
+  .c-hero{position:relative;padding:80px 0 20px;overflow:hidden}
+  .c-hero .inner{position:relative;z-index:2;max-width:720px}
+  .c-hero h1{font-size:clamp(36px,5vw,54px);font-weight:700;margin:20px 0 20px}
+  .c-hero h1 .accent{color:var(--blue-bright)}
+  .c-hero p{font-size:clamp(17px,1.6vw,19px);color:var(--text-2);max-width:580px}
+
+  .c-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:start}
+
+  .reasons{display:flex;flex-direction:column;gap:18px}
+  .reason{display:flex;gap:16px;align-items:flex-start}
+  .reason .ri{width:42px;height:42px;flex:none;border-radius:11px;background:rgba(46,128,255,.1);border:1px solid rgba(46,128,255,.25);display:flex;align-items:center;justify-content:center}
+  .reason .ri svg{width:19px;height:19px;stroke:var(--blue-bright)}
+  .reason h3{font-size:16.5px;margin-bottom:4px}
+  .reason p{color:var(--text-2);font-size:14px}
+  .note{margin-top:30px;padding:18px 20px;border:1px solid var(--line);border-radius:10px;background:var(--bg-elev);font-size:13.5px;color:var(--text-2)}
+  .note b{color:var(--text)}
+
+  .formcard{background:var(--bg-elev);border:1px solid var(--line-bright);border-radius:var(--radius);padding:32px;position:relative;overflow:hidden}
+  .formcard .grid-bg{opacity:.5;-webkit-mask-image:radial-gradient(ellipse 100% 60% at 50% 0%,#000,transparent 80%);mask-image:radial-gradient(ellipse 100% 60% at 50% 0%,#000,transparent 80%)}
+  .fc-inner{position:relative;z-index:2}
+  .field{margin-bottom:18px}
+  .field label{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);margin-bottom:8px}
+  .field input,.field select,.field textarea{width:100%;background:var(--bg);border:1px solid var(--line-bright);border-radius:10px;padding:13px 15px;color:var(--text);font-size:15px;font-family:'Inter',sans-serif;transition:border-color .16s}
+  .field input::placeholder,.field textarea::placeholder{color:var(--text-3)}
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--blue);outline:none}
+  .field textarea{min-height:120px;resize:vertical}
+  .field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236B7885' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+  .formcard .btn{width:100%}
+  .form-note{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--text-3);margin-top:14px;text-align:center;letter-spacing:.02em}
+  .success{display:none;background:rgba(45,190,108,.1);border:1px solid rgba(45,190,108,.35);border-radius:10px;padding:20px;color:var(--green);font-size:15px;font-weight:500;align-items:center;gap:10px}
+  .success svg{width:20px;height:20px;stroke:var(--green);flex:none}
+
+  footer{border-top:1px solid var(--line);padding:64px 0 40px;margin-top:40px}
+  .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+  .foot-brand{max-width:300px}
+  .foot-brand .brand{margin-bottom:16px}
+  .foot-brand p{color:var(--text-2);font-size:14px;line-height:1.6}
+  .foot-col h5{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);margin-bottom:18px}
+  .foot-col a{display:block;color:var(--text-2);font-size:14px;margin-bottom:12px;transition:color .16s}
+  .foot-col a:hover{color:var(--text)}
+  .foot-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:28px;border-top:1px solid var(--line);flex-wrap:wrap;gap:16px}
+  .foot-bottom p{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text-3);letter-spacing:.02em}
+  .foot-tagline{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--steel);letter-spacing:.04em}
+
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+
+  @media(max-width:1000px){
+    .c-grid{grid-template-columns:1fr;gap:44px}
+    .foot-grid{grid-template-columns:1fr 1fr;gap:32px}
+    .foot-brand{grid-column:1/-1}
+  }
+  @media(max-width:680px){
+    .nav-links,.nav-login{display:none}
+    .menu-btn{display:flex}
+    .section{padding:60px 0}
+    .foot-grid{grid-template-columns:1fr}
+  }
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a href="index.html" class="brand" aria-label="FieldBinder AI home">
+        <svg class="logo-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <rect x="4" y="3" width="21" height="26" rx="3" fill="#151A20" stroke="#2E80FF" stroke-width="1.6"/>
+          <rect x="4" y="3" width="5" height="26" rx="2.5" fill="#2E80FF" opacity="0.9"/>
+          <circle cx="18.5" cy="12" r="2.1" fill="#4D96FF"/><circle cx="18.5" cy="20" r="1.4" fill="#5C7A99"/>
+          <circle cx="23" cy="16" r="1.4" fill="#5C7A99"/><path d="M18.5 12 L23 16 L18.5 20" stroke="#4D96FF" stroke-width="1.1" opacity="0.8"/>
+        </svg>
+        <span>FieldBinder<span class="ai"> AI</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="features.html">Features</a>
+        <a href="use-cases.html">Use cases</a>
+        <a href="index.html#reports">Reports</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="security.html">Security</a>
+      </div>
+      <div class="nav-cta">
+        <a href="login.html" class="nav-login">Log in</a>
+        <a href="index.html#join" class="btn btn-primary">Join Early Access</a>
+        <button class="menu-btn" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="c-hero">
+  <div class="grid-bg"></div>
+  <div class="wrap">
+    <div class="inner">
+      <span class="eyebrow">Contact</span>
+      <h1>Talk to us. We'll give you a <span class="accent">straight answer.</span></h1>
+      <p>Questions about early access, feedback from the field, partnership ideas, or press — this is the place.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:48px">
+  <div class="wrap">
+    <div class="c-grid">
+      <div class="reveal">
+        <div class="reasons">
+          <div class="reason">
+            <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg></div>
+            <div><h3>Early access questions</h3><p>Timing, what the first release includes, or whether it fits your work — ask away. Fastest path is still the <a href="index.html#join" style="color:var(--blue-bright)">early access list</a>.</p></div>
+          </div>
+          <div class="reason">
+            <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div>
+            <div><h3>Feedback from the field</h3><p>You walk sites and write reports — your input shapes what gets built first. Tell us what would actually save you time.</p></div>
+          </div>
+          <div class="reason">
+            <div class="ri"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+            <div><h3>Partnerships & press</h3><p>Distribution ideas, industry groups, integrations, or a story — we read everything and respond to what fits.</p></div>
+          </div>
+        </div>
+        <div class="note"><b>Response time:</b> we're a small, focused team. Expect a reply within 1–2 business days — a real one, not an autoresponder.</div>
+      </div>
+
+      <div class="formcard reveal">
+        <div class="grid-bg"></div>
+        <div class="fc-inner">
+          <form id="contactForm" name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" novalidate>
+            <input type="hidden" name="form-name" value="contact">
+            <p style="display:none"><label>Leave this empty: <input name="bot-field"></label></p>
+            <div class="field">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" placeholder="Your name" required>
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="you@company.com" required>
+            </div>
+            <div class="field">
+              <label for="role">Your role</label>
+              <select id="role" name="role">
+                <option value="">Select one (optional)</option>
+                <option>Project manager</option>
+                <option>Facility / maintenance leader</option>
+                <option>Engineering consultant</option>
+                <option>Contractor</option>
+                <option>Owner's rep</option>
+                <option>Sales / business development</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" placeholder="What's on your mind?" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Send message</button>
+            <p class="form-note" id="formNote">Goes straight to the team. No spam lists.</p>
+          </form>
+          <div class="success" id="successMsg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+            Message received. We'll get back to you within 1–2 business days.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="index.html" class="brand" aria-label="FieldBinder AI home">
+          <svg class="logo-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <rect x="4" y="3" width="21" height="26" rx="3" fill="#151A20" stroke="#2E80FF" stroke-width="1.6"/>
+            <rect x="4" y="3" width="5" height="26" rx="2.5" fill="#2E80FF" opacity="0.9"/>
+            <circle cx="18.5" cy="12" r="2.1" fill="#4D96FF"/><circle cx="18.5" cy="20" r="1.4" fill="#5C7A99"/>
+            <circle cx="23" cy="16" r="1.4" fill="#5C7A99"/><path d="M18.5 12 L23 16 L18.5 20" stroke="#4D96FF" stroke-width="1.1" opacity="0.8"/>
+          </svg>
+          <span>FieldBinder<span class="ai"> AI</span></span>
+        </a>
+        <p>Turn field documentation into professional project reports. Your project memory, organized by job.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Product</h5>
+        <a href="features.html">Features</a>
+        <a href="use-cases.html">Use cases</a>
+        <a href="index.html#reports">Reports</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="security.html">Security</a>
+      </div>
+      <div class="foot-col">
+        <h5>Company</h5>
+        <a href="about.html">About</a>
+        <a href="index.html#join">Early access</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="foot-col">
+        <h5>Legal</h5>
+        <a href="terms.html">Terms</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="privacy.html">AI disclaimer</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© 2026 FieldBinder AI. All rights reserved.</p>
+      <p class="foot-tagline">Capture the field. Generate the report.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  const form=document.getElementById('contactForm');
+  form.addEventListener('submit',(e)=>{
+    e.preventDefault();
+    let valid=true;
+    ['name','email','message'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(!el.value || !el.checkValidity()){el.style.borderColor='var(--amber)';valid=false;}
+      else{el.style.borderColor='var(--line-bright)';}
+    });
+    if(!valid) return;
+    fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(form)).toString()})
+      .then(()=>{form.style.display='none';document.getElementById('successMsg').style.display='flex';})
+      .catch(()=>{form.style.display='none';document.getElementById('successMsg').style.display='flex';});
+  });
+</script>
+</body>
+</html>
