@@ -98,7 +98,11 @@
   .roi-val.big{font-size:22px;color:var(--blue-bright)}
 
   /* Comparison table */
-  .compare{overflow-x:auto}
+  /* No overflow container at desktop widths so the sticky <thead> pins to the
+     viewport (an overflow-x:auto wrapper forces overflow-y:auto, which makes it
+     a scroll container and breaks the sticky header, clipping the first row).
+     Horizontal scroll is re-enabled below where the 720px-min table overflows. */
+  .compare{overflow-x:visible}
   table.cmp{width:100%;border-collapse:collapse;min-width:720px}
   table.cmp th,table.cmp td{text-align:center;padding:15px 14px;border-bottom:1px solid var(--line)}
   table.cmp thead th{position:sticky;top:66px;background:var(--bg);z-index:5}
@@ -155,6 +159,11 @@
     .foot-grid{grid-template-columns:1fr 1fr;gap:32px}
     .foot-brand{grid-column:1/-1}
     table.cmp thead th{top:0}
+  }
+  /* Below ~780px the 720px-min table overflows its container, so re-enable
+     horizontal scroll here (the sticky header is a non-issue at this width). */
+  @media(max-width:780px){
+    .compare{overflow-x:auto;-webkit-overflow-scrolling:touch}
   }
   @media(max-width:680px){
     .nav-links,.nav-login{display:none}
