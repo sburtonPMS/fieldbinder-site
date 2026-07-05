@@ -18,6 +18,7 @@
     --maxw:1200px;--radius:14px;--radius-sm:10px;--ease:cubic-bezier(.22,.61,.36,1);
   }
   *{box-sizing:border-box;margin:0;padding:0}
+  .hidden-field{position:absolute!important;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
   html{scroll-behavior:smooth}
   body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
   ::selection{background:rgba(46,128,255,.28);color:#fff}
@@ -179,9 +180,9 @@
       <div class="formcard reveal">
         <div class="grid-bg"></div>
         <div class="fc-inner">
-          <form id="contactForm" name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" novalidate>
+          <form id="contactForm" name="contact" method="POST" action="/thank-you" data-netlify="true" data-netlify-honeypot="bot-field" novalidate>
             <input type="hidden" name="form-name" value="contact">
-            <p style="display:none"><label>Leave this empty: <input name="bot-field"></label></p>
+            <p class="hidden-field" aria-hidden="true"><label>Leave this empty: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
             <div class="field">
               <label for="name">Name</label>
               <input type="text" id="name" name="name" placeholder="Your name" required>
