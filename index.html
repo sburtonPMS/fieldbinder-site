@@ -31,6 +31,7 @@
   }
 
   *{box-sizing:border-box;margin:0;padding:0}
+  .hidden-field{position:absolute!important;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
   html{scroll-behavior:smooth}
   body{
     background:var(--bg);
@@ -800,9 +801,9 @@
       <span class="eyebrow" style="justify-content:center">Early access</span>
       <h2>Capture the field.<br><span class="accent">Generate the report.</span></h2>
       <p>Join the early access list. Be first to put FieldBinder AI on your next site visit — and help shape the reports it writes.</p>
-      <form class="signup" id="signupForm" name="early-access" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" novalidate>
+      <form class="signup" id="signupForm" name="early-access" method="POST" action="/thank-you" data-netlify="true" data-netlify-honeypot="bot-field" novalidate>
         <input type="hidden" name="form-name" value="early-access">
-        <p style="display:none"><label>Leave this empty: <input name="bot-field"></label></p>
+        <p class="hidden-field" aria-hidden="true"><label>Leave this empty: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
         <input type="email" id="email" name="email" placeholder="you@company.com" aria-label="Email address" required>
         <button type="submit" class="btn btn-primary">Join Early Access</button>
       </form>
