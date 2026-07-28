@@ -59,6 +59,12 @@
   .nav-login:hover{color:var(--text)}
   .menu-btn{display:none;background:none;border:1px solid var(--line-bright);border-radius:8px;padding:8px;cursor:pointer}
   .menu-btn svg{width:20px;height:20px;stroke:var(--text)}
+  .mobile-menu{display:none;position:fixed;top:66px;left:0;right:0;z-index:99;flex-direction:column;background:var(--bg-elev);border-bottom:1px solid var(--line);padding:10px 28px 20px;box-shadow:0 16px 32px rgba(0,0,0,.4)}
+  .mobile-menu a{color:var(--text-2);font-size:16px;font-weight:500;padding:13px 2px;border-bottom:1px solid var(--line);transition:color .16s}
+  .mobile-menu a:last-child{border-bottom:none}
+  .mobile-menu a:hover,.mobile-menu a:active{color:var(--text)}
+  .mobile-menu .mm-login{color:var(--text);font-weight:600}
+  body.menu-open{overflow:hidden}
 
   .l-hero{position:relative;padding:72px 0 36px;overflow:hidden}
   .l-hero .inner{position:relative;z-index:2;max-width:800px}
@@ -101,7 +107,7 @@
   .foot-tagline{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--steel);letter-spacing:.04em}
 
   @media(max-width:1000px){.foot-grid{grid-template-columns:1fr 1fr;gap:32px}.foot-brand{grid-column:1/-1}}
-  @media(max-width:680px){.nav-links,.nav-login{display:none}.menu-btn{display:flex}.foot-grid{grid-template-columns:1fr}}
+  @media(max-width:680px){.nav-links,.nav-login{display:none}.menu-btn{display:flex}.mobile-menu.open{display:flex}.foot-grid{grid-template-columns:1fr}}
   @media(prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
 </style>
 </head>
@@ -124,9 +130,17 @@
       <div class="nav-cta">
         <a href="login.html" class="nav-login">Log in</a>
         <a href="index.html#join" class="btn btn-primary">Join Early Access</a>
-        <button class="menu-btn" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+        <button class="menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
       </div>
     </nav>
+  </div>
+  <div id="mobileMenu" class="mobile-menu" role="navigation" aria-label="Mobile menu">
+    <a href="/features">Features</a>
+    <a href="/use-cases">Use cases</a>
+    <a href="#reports">Reports</a>
+    <a href="/pricing">Pricing</a>
+    <a href="/security">Security</a>
+    <a href="/login" class="mm-login">Log in</a>
   </div>
 </header>
 
@@ -310,5 +324,17 @@
   </div>
 </footer>
 
+<script>
+  /* mobile nav toggle */
+  (function(){
+    var btn=document.querySelector('.menu-btn'),menu=document.getElementById('mobileMenu');
+    if(!btn||!menu)return;
+    function set(o){menu.classList.toggle('open',o);btn.setAttribute('aria-expanded',o?'true':'false');document.body.classList.toggle('menu-open',o);}
+    btn.addEventListener('click',function(){set(!menu.classList.contains('open'));});
+    menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){set(false);});});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false);});
+    window.matchMedia('(min-width:681px)').addEventListener('change',function(e){if(e.matches)set(false);});
+  })();
+</script>
 </body>
 </html>
